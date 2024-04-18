@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class Detector : MonoBehaviour
 {
-    public abstract void Detect(SteeringData data);
+    public abstract SteeringData Detect(SteeringData data);
 }

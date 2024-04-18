@@ -5,27 +5,34 @@ using UnityEngine.UIElements;
 
 public class ObstacleDetector : Detector
 {
-    private Vector3[] compass = { new Vector3(1,0,0), new Vector3(.7f,0,.7f), new Vector3(0,0,1), new Vector3(-.7f,0,.7f), 
-        new Vector3(-1,0,0), new Vector3(-.7f,0,-.7f), new Vector3(0,0,-1), new Vector3(.7f,0,-.7f) };
+    private Compass compass = new Compass();
 
     public float range = 2;
-    public LayerMask obstaclesLayerMask;
 
-    public override void Detect(SteeringData data)
+    private string[] obstacleLayers = { "Default" };
+    private LayerMask layerMask;
+
+    private void Start()
     {
-        foreach (Vector3 direction in compass)
+        layerMask = LayerMask.GetMask(obstacleLayers);
+    }
+
+    public override SteeringData Detect(SteeringData data)
+    {
+        for(int i = 0; i < Compass.Length; i++)
         {
             Vector3 start = transform.position;
-            Vector3 end = start + direction * range;
+            Vector3 end = start + compass[i] * range;
             RaycastHit hit;
 
-            Debug.Log(name + " direction " + direction);
-            Debug.DrawLine(transform.position, transform.position + direction * range, Color.red, .1f);
+            Debug.DrawLine(transform.position, transform.position + compass[i] * range, Color.red, .1f);
 
-            if(Physics.Raycast(start, end, out hit))
+            if(Physics.Linecast(start, end, out hit, layerMask))
             {
                 data.obstacles.Add(hit.point);
             }
         }
+
+        return data;
     }
 }
