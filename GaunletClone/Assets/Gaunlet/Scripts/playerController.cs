@@ -6,8 +6,7 @@ using UnityEngine.InputSystem;
 public class playerController : MonoBehaviour
 {
     private CharacterController controller;
-    private Vector3 playerVelocity;
-    private float playerSpeed = 2.0f;
+    [SerializeField][Range(0, 5)]private float playerSpeed = 2.0f;
 
     private Vector2 moveInput;
     public GameObject playerModel;
@@ -19,7 +18,7 @@ public class playerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        transform.Translate(new Vector3(moveInput.x, 0f, moveInput.y));
+        transform.Translate(new Vector3(moveInput.x, 0f, moveInput.y) * playerSpeed);
     }
 
     public void Movement(InputAction.CallbackContext context)
