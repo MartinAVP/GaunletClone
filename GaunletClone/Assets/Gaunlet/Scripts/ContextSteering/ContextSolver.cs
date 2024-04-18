@@ -27,7 +27,7 @@ public class ContextSolver : MonoBehaviour
                 highestInterestInex = i;
             }
 
-            //Debug.Log(name + " index " + i + " value " + value);
+            Debug.Log(name + " index " + i + " value " + value);
         }
 
         Vector3 finalDirection = compass[highestInterestInex];

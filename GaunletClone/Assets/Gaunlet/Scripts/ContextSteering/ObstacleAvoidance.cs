@@ -10,25 +10,30 @@ public class ObstacleAvoidance : SteeringStyle
 
     public override void GetWeights(out float[] danger, out float[] interest, SteeringData data)
     {
-        danger = new float[8];
-        interest = new float[8];  
+        danger = interest = new float[8];
 
         Debug.Log(name + " num obstacles " + data.obstacles.Count);
 
         foreach (Vector3 obstacle in data.obstacles)
         {
+
             Vector3 direction = (obstacle - transform.position);
             float distance = direction.magnitude;
 
-            float weight = Mathf.Clamp(distance / radius, 0, 1);
+            float weight = 1 - Mathf.Clamp(distance / radius, 0, 1);
 
             direction = direction.normalized;
             for (int i = 0; i < Compass.Length; i++)
             {
-                danger[i] += Vector3.Dot(compass[i], direction) * weight;
+                float value = Vector3.Dot(compass[i], direction) * weight;
+
+                if(value > danger[i])
+                {
+                    danger[i] = value;
+                }
             }
 
-            Debug.Log(name + " direction " + direction + " weight " + weight);
+            //Debug.Log(name + " direction " + direction + " weight " + weight);
         }
     }
 }
