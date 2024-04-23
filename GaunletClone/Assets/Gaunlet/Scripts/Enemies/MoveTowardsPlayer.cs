@@ -16,7 +16,7 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
 
     private SteeringData steeringData = new SteeringData();
 
-    private void Start()
+    private void Awake()
     {
         detectors.Add(gameObject.AddComponent<ObstacleDetector>());
         styles.Add(gameObject.AddComponent<ObstacleAvoidance>());
@@ -24,6 +24,11 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
     }
 
     public void Execute(IEnemyInterface enemy, UnityAction onComplete)
+    {
+        StartCoroutine(GetInput(onComplete));   
+    }
+
+    private IEnumerator GetInput(UnityAction onComplete)
     {
         steeringData.obstacles.Clear();
         steeringData.targets.Clear();
@@ -35,18 +40,9 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
         Vector3 input = solver.GetSolvedDirection(styles, steeringData);
 
         Debug.DrawLine(transform.position, transform.position + input, Color.yellow, .1f);
+
+        yield return null;
+        onComplete?.Invoke();
     }
 
-    /* TESTONLY */
-
-    private void OnGUI()
-    {
-        if(GUILayout.Button("Print obstacles"))
-        {
-            foreach(var obstacle in steeringData.obstacles)
-            {
-                Debug.Log(obstacle);
-            }
-        }
-    }
 }

@@ -8,11 +8,11 @@ public class ObstacleAvoidance : SteeringStyle
 
     private Compass compass = new Compass();
 
-    public override void GetWeights(out float[] danger, out float[] interest, SteeringData data)
+    public override void GetWeights(float[] danger, float[] interest, SteeringData data)
     {
-        danger = interest = new float[8];
+        //danger = interest = new float[8];
 
-        Debug.Log(name + " num obstacles " + data.obstacles.Count);
+        //Debug.Log(name + " num obstacles " + data.obstacles.Count);
 
         foreach (Vector3 obstacle in data.obstacles)
         {
@@ -26,14 +26,15 @@ public class ObstacleAvoidance : SteeringStyle
             for (int i = 0; i < Compass.Length; i++)
             {
                 float value = Vector3.Dot(compass[i], direction) * weight;
+                value = (value + 1) / 2;
+
+                //Debug.Log(name + "Dot Prod. " + value / weight + ", Weight. " + weight + ", value. " + value);
 
                 if(value > danger[i])
                 {
                     danger[i] = value;
                 }
             }
-
-            //Debug.Log(name + " direction " + direction + " weight " + weight);
         }
     }
 }

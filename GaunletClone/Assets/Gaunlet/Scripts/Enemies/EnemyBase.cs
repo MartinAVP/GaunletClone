@@ -9,17 +9,13 @@ public class EnemyBase : MonoBehaviour, IEnemyInterface
     private void Start()
     {
         t_behavior = gameObject.AddComponent<MoveTowardsPlayer>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
         t_behavior.Execute(this, OnBehaviorComplete);
     }
 
     private void OnBehaviorComplete()
     {
-
+        Debug.Log(name + " behavior complete.");
+        t_behavior.Execute(this, OnBehaviorComplete);
     }
 
     public void Move(Vector3 delta)

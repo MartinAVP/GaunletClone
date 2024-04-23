@@ -13,7 +13,7 @@ public class ContextSolver : MonoBehaviour
 
         foreach (SteeringStyle style in styles)
         {
-            style.GetWeights(out danger, out interest, data);
+            style.GetWeights(danger, interest, data);
         }
 
         int highestInterestInex = 0;
@@ -27,7 +27,7 @@ public class ContextSolver : MonoBehaviour
                 highestInterestInex = i;
             }
 
-            Debug.Log(name + " index " + i + " value " + value);
+            //Debug.Log(name + " index " + i + " value " + value);
         }
 
         Vector3 finalDirection = compass[highestInterestInex];
