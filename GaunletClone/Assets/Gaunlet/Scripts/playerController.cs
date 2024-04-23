@@ -3,82 +3,53 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class playerController : MonoBehaviour
+[RequireComponent(typeof(CharacterController))]
+public class PlayerController : MonoBehaviour
 {
     private CharacterController controller;
-    [SerializeField][Range(0, 5)]private float playerSpeed = 2.0f;
+    private Vector3 playerVelocity;
+    private bool groundedPlayer;
+    [SerializeField] private float playerSpeed = 2.0f;
+    private float jumpHeight = 1.0f;
+    private float gravityValue = -9.81f;
 
-    private Vector2 moveInput;
-    public GameObject playerModel;
+    private Vector3 move;
 
-    private void Start()
+    private void Awake()
     {
-        controller = gameObject.AddComponent<CharacterController>();
+        // controller = gameObject.AddComponent<CharacterController>();
+        controller = GetComponent<CharacterController>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        transform.Translate(new Vector3(moveInput.x, 0f, moveInput.y) * playerSpeed);
+        groundedPlayer = controller.isGrounded;
+        if (groundedPlayer && playerVelocity.y < 0)
+        {
+            playerVelocity.y = 0f;
+        }
+
+        
+        controller.Move(move * Time.deltaTime * playerSpeed);
+
+        if (move != Vector3.zero)
+        {
+            gameObject.transform.forward = move;
+        }
+
+        // Changes the height position of the player..
+        if (Input.GetButtonDown("Jump") && groundedPlayer)
+        {
+            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+        }
+
+        playerVelocity.y += gravityValue * Time.deltaTime;
+        controller.Move(playerVelocity * Time.deltaTime);
     }
 
-    public void Movement(InputAction.CallbackContext context)
+    public void OnMove(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<Vector2>();
-        if (context.performed)
-        {
-            changeDirection();
-        }
-
-        //print(moveInput.x);
-    }
-
-    public void changeDirection()
-    {
-        // North East
-        if(moveInput.y >= 0.5f && moveInput.x >= 0.5f)
-        {
-            playerModel.transform.rotation = Quaternion.Euler(0, 45, 0);
-        }
-        // South East
-        else if(moveInput.y <= -0.5f && moveInput.x >= 0.5f)
-        {
-            playerModel.transform.rotation = Quaternion.Euler(0, 135, 0);
-        }
-        // South West
-        else if(moveInput.y <= -0.5f && moveInput.x <= -0.5f)
-        {
-            playerModel.transform.rotation = Quaternion.Euler(0, -135, 0);
-        }
-        // North West
-        else if (moveInput.y >= 0.5f && moveInput.x <= -0.5f)
-        {
-            playerModel.transform.rotation = Quaternion.Euler(0, -45, 0);
-        }
-
-        // Check forward and Backward
-        else if(moveInput.y >= 0.5f)
-        {
-                    playerModel.transform.rotation = new Quaternion(0, 0, 0, 0);
-                    //Debug.Log("Check Dir Front");
-        }
-        else if (moveInput.y <= -0.5f)
-        {
-                    //Debug.Log("Check Dir Back");
-                    playerModel.transform.rotation = new Quaternion(0, 180, 0, 0);
-        }
-
-        // Check Right and Left
-        else if(moveInput.x >= 0.5f)
-        {
-            //playerModel.transform.rotation = new Quaternion(0, 90, 0, 0);
-            playerModel.transform.rotation = Quaternion.Euler(0, 90, 0);
-            //Debug.Log("Check Dir Right");
-        }
-        else if (moveInput.x <= -0.5f)
-        {
-            //Debug.Log("Check Dir Left");
-            playerModel.transform.rotation = Quaternion.Euler(0, -90, 0);
-            //playerModel.transform.rotation = new Quaternion(0, -90, 0, 0);
-        }
+        Vector2 movement = context.ReadValue<Vector2>();
+        move = new Vector3(movement.x, 0, movement.y);
     }
 }
