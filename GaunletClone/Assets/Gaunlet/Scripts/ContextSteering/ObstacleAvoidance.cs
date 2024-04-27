@@ -7,6 +7,14 @@ public class ObstacleAvoidance : SteeringContext
     public float radius = 6;
 
     private Compass compass = new Compass();
+    private CompassDetector compassDetector;
+
+    private void Awake()
+    {
+        compassDetector = gameObject.AddComponent<CompassDetector>();
+        compassDetector.layers = new string[] { "Default" };
+        compassDetector.radius = radius;
+    }
 
     public override void GetWeights(ref SteeringData data)
     {
@@ -14,9 +22,10 @@ public class ObstacleAvoidance : SteeringContext
 
         //Debug.Log(name + " num obstacles " + data.obstacles.Count);
 
+        compassDetector.Detect(ref data);
+
         foreach (Vector3 obstacle in data.obstacles)
         {
-
             Vector3 direction = (obstacle - transform.position);
             float distance = direction.magnitude;
 
@@ -26,9 +35,6 @@ public class ObstacleAvoidance : SteeringContext
             for (int i = 0; i < Compass.Length; i++)
             {
                 float value = Vector3.Dot(compass[i], direction) * weight;
-                //value = (value + 1) / 2;
-
-                //Debug.Log(name + "Dot Prod. " + value / weight + ", Weight. " + weight + ", value. " + value);
 
                 if(value > data.danger[i])
                 {

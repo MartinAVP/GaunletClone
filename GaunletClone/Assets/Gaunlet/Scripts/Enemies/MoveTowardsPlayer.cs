@@ -9,7 +9,7 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
 {
     public float sightDistance;
     public float attackRange;
-    public float speed = 1;
+    public float speed = 2;
 
     public List<SteeringContext> contexts = new List<SteeringContext>();
 
@@ -19,11 +19,13 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
 
     private void Awake()
     {
+        contexts.Add(gameObject.AddComponent<ObstacleAvoidance>());
         contexts.Add(gameObject.AddComponent<TargetSeeking>());
         solver = gameObject.AddComponent<ContextSolver>();
 
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
+        rb.constraints = RigidbodyConstraints.FreezePositionY;
         rb.freezeRotation = true;
     }
 
@@ -36,14 +38,19 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
     {
         Vector3 input = solver.GetDirection(contexts);
 
-        Debug.DrawLine(transform.position, transform.position + input, Color.yellow, .1f);
+        Debug.DrawLine(transform.position, transform.position + input, Color.yellow, 1f);
 
         rb.velocity = input * speed;
         Debug.Log(name + " velocity " + rb.velocity);
 
-        yield return null;
+        yield return new WaitForSeconds(.5f);
         onComplete?.Invoke();
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        rb.velocity = Vector3.ProjectOnPlane(rb.velocity, collision.GetContact(0).normal).normalized * speed;
 
+        Debug.DrawLine(transform.position, transform.position + rb.velocity.normalized, Color.blue, .1f);
+    }
 }

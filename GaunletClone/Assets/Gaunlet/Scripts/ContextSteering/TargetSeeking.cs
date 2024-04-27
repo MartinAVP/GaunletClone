@@ -25,17 +25,25 @@ public class TargetSeeking : SteeringContext
             Vector3 direction = (target - transform.position);
             float distance = direction.magnitude;
 
-            float weight = 1 - Mathf.Clamp(distance / radius, 0, 1);
-
             direction = direction.normalized;
             for(int i = 0; i < Compass.Length; i++)
             {
-                float value = Vector3.Dot(compass[i], direction) * weight;
-                //value = (value + 1) / 2;
+                // The further compass direction can cast without hitting the environment, the more strongly we should weight that direction.
+                // In this case the the max distance of a cast should be the distance to target.
+                RaycastHit hit;
+                string[] layers = { "Default" };
+                float visibility = 1;
+                if (Physics.Linecast(transform.position, transform.position + compass[i] * distance, out hit, LayerMask.GetMask(layers)))
+                {
+                    visibility = Mathf.Clamp(hit.distance / distance, 0, 1);
+                }
+
+                float value = visibility + Vector3.Dot(compass[i], direction);
 
                 if (value > data.interest[i])
                 {
-                    data.interest[i] = value;    
+                    data.interest[i] = value;
+                    data.target = target;
                 }
             }
         }
