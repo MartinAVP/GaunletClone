@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstacleAvoidance : SteeringStyle
+public class ObstacleAvoidance : SteeringContext
 {
     public float radius = 6;
 
     private Compass compass = new Compass();
 
-    public override void GetWeights(float[] danger, float[] interest, SteeringData data)
+    public override void GetWeights(ref SteeringData data)
     {
         //danger = interest = new float[8];
 
@@ -30,9 +30,9 @@ public class ObstacleAvoidance : SteeringStyle
 
                 //Debug.Log(name + "Dot Prod. " + value / weight + ", Weight. " + weight + ", value. " + value);
 
-                if(value > danger[i])
+                if(value > data.danger[i])
                 {
-                    danger[i] = value;
+                    data.danger[i] = value;
                 }
             }
         }

@@ -17,7 +17,7 @@ public class ObstacleDetector : Detector
         layerMask = LayerMask.GetMask(obstacleLayers);
     }
 
-    public override SteeringData Detect(SteeringData data)
+    public override SteeringData Detect(ref SteeringData data)
     {
         for(int i = 0; i < Compass.Length; i++)
         {

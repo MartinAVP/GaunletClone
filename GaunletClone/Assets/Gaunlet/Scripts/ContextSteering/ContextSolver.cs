@@ -4,30 +4,42 @@ using UnityEngine;
 
 public class ContextSolver : MonoBehaviour
 {
-    Compass compass = new Compass();
+    protected Compass compass = new Compass();
+    protected SteeringData data = new SteeringData();
 
-    public Vector3 GetSolvedDirection(List<SteeringStyle> styles, SteeringData data)
+    private void Awake()
     {
-        float[] danger = new float[8];
-        float[] interest = new float[8];
-
-        foreach (SteeringStyle style in styles)
+        for(int i = 0; i < Compass.Length; i++)
         {
-            style.GetWeights(danger, interest, data);
+            data.interest.Add(0);
+            data.danger.Add(0);
+        }
+    }
+
+    public Vector3 GetDirection(List<SteeringContext> contexts)
+    {
+        data.targets.Clear();
+        for (int i = 0; i < data.interest.Count; i++) data.interest[i] = 0;
+
+        foreach (var context in contexts)
+        {
+            context.GetWeights(ref data);
         }
 
+        // Get final direction from weighted compass
         int highestInterestInex = 0;
         float highestInterest = float.NegativeInfinity;
         for (int i = 0; i < Compass.Length; i++)
         {
-            float value = (interest[i]) - danger[i];
+
+            float value = data.interest[i];
             if (value > highestInterest)
             {
                 highestInterest = value;
                 highestInterestInex = i;
             }
 
-            Debug.Log(name + " index " + i + " interest " + interest[i] + " danger " + danger[i] + " value " + value);
+            Debug.Log(name + " index " + i + " interest " + data.interest[i] + " danger " + data.danger[i] + " value " + value);
         }
 
         Vector3 finalDirection = compass[highestInterestInex];

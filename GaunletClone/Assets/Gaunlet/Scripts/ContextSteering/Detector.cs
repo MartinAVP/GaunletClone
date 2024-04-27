@@ -4,5 +4,16 @@ using UnityEngine;
 
 public abstract class Detector : MonoBehaviour
 {
-    public abstract SteeringData Detect(SteeringData data);
+    public float radius = 20;
+    public string[] layers
+    {
+        set
+        {
+            layerMask = LayerMask.GetMask(value);
+        }
+    }
+
+    protected LayerMask layerMask;
+
+    public abstract SteeringData Detect(ref SteeringData data);
 }

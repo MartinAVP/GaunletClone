@@ -2,14 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetSeeking : SteeringStyle
+public class TargetSeeking : SteeringContext
 {
     public float radius = 20;
 
     protected Compass compass = new Compass();
+    protected Detector sphereDetector;
 
-    public override void GetWeights(float[] danger, float[] interest, SteeringData data)
+    private void Awake()
     {
+        sphereDetector = gameObject.AddComponent<SphereDetector>();
+        sphereDetector.radius = radius;
+        sphereDetector.layers = new string[1] { "Player" };
+    }
+
+    public override void GetWeights(ref SteeringData data)
+    {
+        sphereDetector.Detect(ref data);
+
         foreach (Vector3 target in data.targets)
         {
             Vector3 direction = (target - transform.position);
@@ -23,9 +33,9 @@ public class TargetSeeking : SteeringStyle
                 float value = Vector3.Dot(compass[i], direction) * weight;
                 //value = (value + 1) / 2;
 
-                if (value > interest[i])
+                if (value > data.interest[i])
                 {
-                    interest[i] = value;    
+                    data.interest[i] = value;    
                 }
             }
         }

@@ -11,21 +11,15 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
     public float attackRange;
     public float speed = 1;
 
-    public List<Detector> detectors = new List<Detector>();
-    public List<SteeringStyle> styles = new List<SteeringStyle>();
+    public List<SteeringContext> contexts = new List<SteeringContext>();
 
     private ContextSolver solver;
-
-    private SteeringData steeringData = new SteeringData();
 
     private Rigidbody rb;
 
     private void Awake()
     {
-        detectors.Add(gameObject.AddComponent<ObstacleDetector>());
-        detectors.Add(gameObject.AddComponent<TargetDetector>());
-        styles.Add(gameObject.AddComponent<ObstacleAvoidance>());
-        styles.Add(gameObject.AddComponent<TargetSeeking>());
+        contexts.Add(gameObject.AddComponent<TargetSeeking>());
         solver = gameObject.AddComponent<ContextSolver>();
 
         rb = GetComponent<Rigidbody>();
@@ -40,14 +34,7 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
 
     private IEnumerator GetInput(UnityAction onComplete)
     {
-        steeringData.obstacles.Clear();
-        steeringData.targets.Clear();
-        foreach (var detector in detectors)
-        {
-            steeringData = detector.Detect(steeringData);
-        }
-
-        Vector3 input = solver.GetSolvedDirection(styles, steeringData);
+        Vector3 input = solver.GetDirection(contexts);
 
         Debug.DrawLine(transform.position, transform.position + input, Color.yellow, .1f);
 
