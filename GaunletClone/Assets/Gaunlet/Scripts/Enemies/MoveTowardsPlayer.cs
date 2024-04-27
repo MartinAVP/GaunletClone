@@ -19,7 +19,9 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
     private void Awake()
     {
         detectors.Add(gameObject.AddComponent<ObstacleDetector>());
+        detectors.Add(gameObject.AddComponent<TargetDetector>());
         styles.Add(gameObject.AddComponent<ObstacleAvoidance>());
+        styles.Add(gameObject.AddComponent<TargetSeeking>());
         solver = gameObject.AddComponent<ContextSolver>();
     }
 
@@ -44,5 +46,6 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
         yield return null;
         onComplete?.Invoke();
     }
+
 
 }

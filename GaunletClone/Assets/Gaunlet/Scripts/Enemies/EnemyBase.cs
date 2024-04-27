@@ -14,7 +14,7 @@ public class EnemyBase : MonoBehaviour, IEnemyInterface
 
     private void OnBehaviorComplete()
     {
-        Debug.Log(name + " behavior complete.");
+        //Debug.Log(name + " behavior complete.");
         t_behavior.Execute(this, OnBehaviorComplete);
     }
 

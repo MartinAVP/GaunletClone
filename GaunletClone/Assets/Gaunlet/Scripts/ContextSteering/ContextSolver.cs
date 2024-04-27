@@ -20,14 +20,14 @@ public class ContextSolver : MonoBehaviour
         float highestInterest = 0;
         for (int i = 0; i < Compass.Length; i++)
         {
-            float value = 1 - danger[i];
+            float value = (interest[i]) - danger[i];
             if (value > highestInterest)
             {
                 highestInterest = value;
                 highestInterestInex = i;
             }
 
-            //Debug.Log(name + " index " + i + " value " + value);
+            Debug.Log(name + " index " + i + " interest " + interest[i] + " danger " + danger[i] + " value " + value);
         }
 
         Vector3 finalDirection = compass[highestInterestInex];
