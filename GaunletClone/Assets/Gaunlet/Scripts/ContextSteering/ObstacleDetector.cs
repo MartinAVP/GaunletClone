@@ -7,7 +7,7 @@ public class ObstacleDetector : Detector
 {
     private Compass compass = new Compass();
 
-    public float range = 2;
+    public float range = 6;
 
     private string[] obstacleLayers = { "Default" };
     private LayerMask layerMask;

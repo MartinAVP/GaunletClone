@@ -17,7 +17,7 @@ public class ContextSolver : MonoBehaviour
         }
 
         int highestInterestInex = 0;
-        float highestInterest = 0;
+        float highestInterest = float.NegativeInfinity;
         for (int i = 0; i < Compass.Length; i++)
         {
             float value = (interest[i]) - danger[i];

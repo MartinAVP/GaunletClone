@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TargetDetector : Detector
 {
-    public float range = 6;
+    public float range = 20;
 
     private string[] targetLayers = { "Player" };
     private LayerMask layerMask;
@@ -20,11 +20,11 @@ public class TargetDetector : Detector
 
         Collider[] colliders = Physics.OverlapSphere(start, range, layerMask);
 
-        Debug.Log(name + " detecting...");
+        //Debug.Log(name + " detecting...");
 
         foreach(Collider collider in colliders)
         {
-            Debug.Log(name + " detected " + collider.gameObject.name);
+            //Debug.Log(name + " detected " + collider.gameObject.name);
             data.targets.Add(collider.transform.position);
         }
 

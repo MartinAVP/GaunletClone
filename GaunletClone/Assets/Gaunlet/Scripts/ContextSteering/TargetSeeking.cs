@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TargetSeeking : SteeringStyle
 {
-    public float radius = 6;
+    public float radius = 20;
 
     protected Compass compass = new Compass();
 
