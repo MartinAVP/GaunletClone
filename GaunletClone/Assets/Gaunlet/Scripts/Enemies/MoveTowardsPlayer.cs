@@ -49,7 +49,8 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
 
     private void OnCollisionStay(Collision collision)
     {
-        rb.velocity = Vector3.ProjectOnPlane(rb.velocity, collision.GetContact(0).normal).normalized * speed;
+        Vector3 cross = Vector3.Cross(collision.relativeVelocity, collision.GetContact(0).normal).normalized;
+        rb.velocity = Vector3.Cross(cross, collision.GetContact(0).normal).normalized * speed;
 
         Debug.DrawLine(transform.position, transform.position + rb.velocity.normalized, Color.blue, .1f);
     }
