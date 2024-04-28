@@ -7,12 +7,33 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Rigidbody))]
 public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
 {
+    public float PlayerDetectionRadius
+    {
+        set
+        {
+            if (seeking == null)
+                seeking = gameObject.AddComponent<TargetSeeking>();
+            seeking.Radius = value;
+        }
+    }
+    public float ObstacleDetectionRadius
+    {
+        set
+        {
+            if(avoidance == null)
+                avoidance = gameObject.AddComponent<ObstacleAvoidance>();
+            avoidance.Radius = value;
+        }
+    }
+
     public float sightDistance;
     public float attackRange;
     public float speed = 2;
 
     public List<SteeringContext> contexts = new List<SteeringContext>();
 
+    private ObstacleAvoidance avoidance;
+    private TargetSeeking seeking;
     private ContextSolver solver;
 
     private Rigidbody rb;
@@ -21,8 +42,14 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
 
     private void Awake()
     {
-        contexts.Add(gameObject.AddComponent<ObstacleAvoidance>());
-        contexts.Add(gameObject.AddComponent<TargetSeeking>());
+        if(seeking == null)
+            seeking = gameObject.AddComponent<TargetSeeking>();
+        if(avoidance == null)
+            avoidance = gameObject.AddComponent<ObstacleAvoidance>();   
+    
+        
+        contexts.Add(seeking);
+        contexts.Add(avoidance);
         solver = gameObject.AddComponent<ContextSolver>();
 
         rb = GetComponent<Rigidbody>();

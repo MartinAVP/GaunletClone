@@ -29,11 +29,6 @@ public class ContextSolver : MonoBehaviour
             context.GetWeights(ref data);
         }
 
-        // Is target visible?
-        string[] layers = { "Default" };
-        LayerMask layerMask = LayerMask.GetMask(layers);
-        bool isTargetVisible = !Physics.Linecast(transform.position, data.target, layerMask);
-
         // Get final direction from weighted compass
         int highestInterestInex = 0;
         float highestInterest = float.NegativeInfinity;

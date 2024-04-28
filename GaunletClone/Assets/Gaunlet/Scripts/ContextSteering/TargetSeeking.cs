@@ -4,14 +4,25 @@ using UnityEngine;
 
 public class TargetSeeking : SteeringContext
 {
-    public float radius = 20;
+    protected float radius = 20;
+    public float Radius
+    {
+        set
+        {
+            if(sphereDetector == null)
+                sphereDetector = gameObject.AddComponent<SphereDetector>();
+            sphereDetector.radius = value;
+            radius = value;
+        }
+    }
 
     protected Compass compass = new Compass();
     protected Detector sphereDetector;
 
     private void Awake()
     {
-        sphereDetector = gameObject.AddComponent<SphereDetector>();
+        if(sphereDetector == null)
+            sphereDetector = gameObject.AddComponent<SphereDetector>();
         sphereDetector.radius = radius;
         sphereDetector.layers = new string[1] { "Player" };
     }

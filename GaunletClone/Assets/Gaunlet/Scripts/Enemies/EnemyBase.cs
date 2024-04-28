@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class EnemyBase : MonoBehaviour, IEnemyInterface
 {
+    public float playerDetectionRadius = 10;
+    public float obstacleDetectionRadius = 4;
+
     private IEnemyBehaviorInterface t_behavior;
 
     private void Start()
     {
-        t_behavior = gameObject.AddComponent<MoveTowardsPlayer>();
+        MoveTowardsPlayer moveTowardsPlayer = gameObject.AddComponent<MoveTowardsPlayer>();
+        moveTowardsPlayer.PlayerDetectionRadius = playerDetectionRadius;
+        moveTowardsPlayer.ObstacleDetectionRadius = obstacleDetectionRadius;
+        t_behavior = moveTowardsPlayer;
+
         t_behavior.Execute(this, OnBehaviorComplete);
     }
 

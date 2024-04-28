@@ -4,14 +4,25 @@ using UnityEngine;
 
 public class ObstacleAvoidance : SteeringContext
 {
-    public float radius = 3;
+    protected float radius = 3;
+    public float Radius
+    {
+        set
+        {
+            if(compassDetector == null)
+                compassDetector = gameObject.AddComponent<CompassDetector>();
+            radius = value;
+            compassDetector.radius = radius;
+        }
+    }
 
     private Compass compass = new Compass();
     private CompassDetector compassDetector;
 
     private void Awake()
     {
-        compassDetector = gameObject.AddComponent<CompassDetector>();
+        if(compassDetector == null)
+            compassDetector = gameObject.AddComponent<CompassDetector>();
         compassDetector.layers = new string[] { "Default" };
         compassDetector.radius = radius;
     }
