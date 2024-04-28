@@ -17,6 +17,8 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
 
     private Rigidbody rb;
 
+    protected Vector3 inputDirc;
+
     private void Awake()
     {
         contexts.Add(gameObject.AddComponent<ObstacleAvoidance>());
@@ -37,6 +39,7 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
     private IEnumerator GetInput(UnityAction onComplete)
     {
         Vector3 input = solver.GetDirection(contexts);
+        inputDirc = input;  
 
         Debug.DrawLine(transform.position, transform.position + input, Color.yellow, 1f);
 
@@ -49,9 +52,17 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
 
     private void OnCollisionStay(Collision collision)
     {
-        Vector3 cross = Vector3.Cross(collision.relativeVelocity, collision.GetContact(0).normal).normalized;
+        // Slide along surface
+        Vector3 posToTarget = (collision.GetContact(0).point - transform.position).normalized;
+        posToTarget.y = transform.position.y;
+
+        // Rotate input drc slightly to avoid a cross product with zero length
+        Vector3 cross = Vector3.Cross(collision.GetContact(0).normal, Quaternion.AngleAxis(1, transform.up) * inputDirc).normalized;
+
+        //Debug.DrawLine(transform.position, transform.position + cross, Color.blue, .1f);
+
         rb.velocity = Vector3.Cross(cross, collision.GetContact(0).normal).normalized * speed;
 
-        Debug.DrawLine(transform.position, transform.position + rb.velocity.normalized, Color.blue, .1f);
+        //Debug.DrawLine(transform.position, transform.position + rb.velocity.normalized, Color.magenta, .1f);
     }
 }

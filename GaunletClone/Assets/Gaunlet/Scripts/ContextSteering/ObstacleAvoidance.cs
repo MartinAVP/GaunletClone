@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObstacleAvoidance : SteeringContext
 {
-    public float radius = 6;
+    public float radius = 3;
 
     private Compass compass = new Compass();
     private CompassDetector compassDetector;

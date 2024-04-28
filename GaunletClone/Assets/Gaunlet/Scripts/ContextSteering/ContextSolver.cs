@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ContextSolver : MonoBehaviour
 {
+    public Vector3 Target { get { return data.target; } }    
+
     protected Compass compass = new Compass();
     protected SteeringData data = new SteeringData();
 
