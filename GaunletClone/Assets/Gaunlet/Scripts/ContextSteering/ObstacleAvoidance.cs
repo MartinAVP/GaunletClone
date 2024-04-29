@@ -2,13 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Steering context for avoiding obstacles, detected using a compass.
+/// </summary>
 public class ObstacleAvoidance : SteeringContext
 {
+    [Tooltip("Distance this should search along each compass direction.")]
     protected float radius = 3;
+    [Tooltip("Distance this should search along each compass direction.")]
     public float Radius
     {
         set
         {
+            // To keep the detector's radius up-to-date,create a detector if we don't have one already.
             if(compassDetector == null)
                 compassDetector = gameObject.AddComponent<CompassDetector>();
             radius = value;
@@ -21,20 +27,24 @@ public class ObstacleAvoidance : SteeringContext
 
     private void Awake()
     {
+        // Create a detector if we don't have one already. Set default values including search layer for obstacles.
         if(compassDetector == null)
             compassDetector = gameObject.AddComponent<CompassDetector>();
         compassDetector.layers = new string[] { "Default" };
         compassDetector.radius = radius;
     }
 
+    /// <summary>
+    /// Fill out obstacles and add weights to steering data's danger list.
+    /// Does not reset data's previous obstacles or danger weights; manually reset before calling if this is the expected behavior.
+    /// </summary>
+    /// <param name="data"></param>
     public override void GetWeights(ref SteeringData data)
     {
-        //danger = interest = new float[8];
+        // Gather context from environment.
+        compassDetector.Detect(ref data.obstacles);
 
-        //Debug.Log(name + " num obstacles " + data.obstacles.Count);
-
-        compassDetector.Detect(ref data);
-
+        // Weigh each obstacle.
         foreach (Vector3 obstacle in data.obstacles)
         {
             Vector3 direction = (obstacle - transform.position);

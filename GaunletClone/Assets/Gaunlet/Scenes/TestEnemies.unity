@@ -135,8 +135,8 @@ GameObject:
   - component: {fileID: 279378860}
   - component: {fileID: 279378859}
   - component: {fileID: 279378858}
-  - component: {fileID: 279378862}
   - component: {fileID: 279378864}
+  - component: {fileID: 279378865}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -230,20 +230,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &279378862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 279378857}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 541c702fd7b2a654780ba1a759932be8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerDetectionRadius: 10
-  obstacleDetectionRadius: 5
 --- !u!54 &279378864
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -271,6 +257,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &279378865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279378857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c57e4cab88261c4888add88642b8e62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerDetectionRadius: 10
+  obstacleDetectionRadius: 4
 --- !u!1 &421662868
 GameObject:
   m_ObjectHideFlags: 0

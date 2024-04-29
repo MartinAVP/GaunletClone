@@ -2,14 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Steering context for chasing targets, detected within the player layer using a sphere detector.
+/// </summary>
 public class TargetSeeking : SteeringContext
 {
+    [Tooltip("Half size of the sphere to search within.")]
     protected float radius = 20;
+    [Tooltip("Half size of the sphere to search within.")]
     public float Radius
     {
         set
         {
-            if(sphereDetector == null)
+            // To keep the detector's radius up-to-date,create a detector if we don't have one already.
+            if (sphereDetector == null)
                 sphereDetector = gameObject.AddComponent<SphereDetector>();
             sphereDetector.radius = value;
             radius = value;
@@ -21,15 +27,22 @@ public class TargetSeeking : SteeringContext
 
     private void Awake()
     {
-        if(sphereDetector == null)
+        // Create a detector if we don't have one already. Set default values including search layer for targets.
+        if (sphereDetector == null)
             sphereDetector = gameObject.AddComponent<SphereDetector>();
         sphereDetector.radius = radius;
         sphereDetector.layers = new string[1] { "Player" };
     }
 
+    /// <summary>
+    /// Fill out targets, target, and interest weights within steering data.
+    /// Does not reset the data's targets, target, or interest lists. Manually reset these before calling if this is the expected behavior.
+    /// </summary>
+    /// <param name="data"></param>
     public override void GetWeights(ref SteeringData data)
     {
-        sphereDetector.Detect(ref data);
+        // Gather context from environment.
+        sphereDetector.Detect(ref data.targets);
 
         // Pick closest target
         float distance = float.MaxValue;

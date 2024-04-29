@@ -1,10 +1,12 @@
 using UnityEngine;
 
+/// <summary>
+/// Interface defining how other objects should interact with an enemy.
+/// </summary>
 public interface IEnemyInterface
 {
     /// <summary>
-    /// Translate the enemy by delta.
+    /// "Rigidbody of this enemy. Authoriative source of physics driven movement."
     /// </summary>
-    /// <param name="delta"></param>
-    public void Move(Vector3 delta);
+    public Rigidbody Rigidbody { get; }
 }

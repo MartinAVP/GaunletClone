@@ -1,13 +1,19 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
+/// <summary>
+/// Detector for directions stored in the Compass type.
+/// </summary>
 public class CompassDetector : Detector
 {
     private Compass compass = new Compass();
 
-    public override SteeringData Detect(ref SteeringData data)
+    /// <summary>
+    /// Perform a raycast originating from this root for each direction in Compass.
+    /// Stores the first hit for each raycast in values.
+    /// </summary>
+    /// <param name="values"></param>
+    public override void Detect(ref List<Vector3> values)
     {
         for (int i = 0; i < Compass.Length; i++)
         {
@@ -19,10 +25,8 @@ public class CompassDetector : Detector
 
             if (Physics.Linecast(start, end, out hit, layerMask))
             {
-                data.obstacles.Add(hit.point);
+                values.Add(hit.point);
             }
         }
-
-        return data;
     }
 }

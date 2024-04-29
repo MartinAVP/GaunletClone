@@ -1,10 +1,16 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Detector for objects within a sphere around this root.
+/// </summary>
 public class SphereDetector : Detector
 {
-    public override SteeringData Detect(ref SteeringData data)
+    /// <summary>
+    /// Detect the root location of colliders within radius.
+    /// </summary>
+    /// <param name="values"></param>
+    public override void Detect(ref List<Vector3> values)
     {
         Vector3 start = transform.position;
 
@@ -15,12 +21,11 @@ public class SphereDetector : Detector
         foreach (Collider collider in colliders)
         {
             //Debug.Log(name + " detected " + collider.gameObject.name);
-            data.targets.Add(collider.transform.position);
+            values.Add(collider.transform.position);
         }
-
-
-        return data;
     }
+
+    /* TESTONLY */
 
     private void OnDrawGizmos()
     {
@@ -28,4 +33,6 @@ public class SphereDetector : Detector
 
         Gizmos.DrawWireSphere(start, radius);
     }
+
+    /* ENDTEST */
 }
