@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
 
     void OnPlayerLeft(PlayerInput playerInput)
     {
-
+        Debug.Log("BYE!");
     }
 
     void JoinAction(InputAction.CallbackContext context)
@@ -69,6 +69,37 @@ public class GameManager : MonoBehaviour
 
     void LeaveAction(InputAction.CallbackContext context)
     {
+        // If the playerlist is bigger than one
+        if(playerList.Count > 1)
+        {
+            // get a reference for each player in the playerlist
+            foreach(var player in playerList)
+            {
+                // get the devices registered to the player
+                foreach(var device in player.devices)
+                {
+                    // Check if the device is with the one that was caused the action to trigger
+                    if(device != null && context.control.device == device)
+                    {
+                        UnregisterPlayer(player);
+                        return;
+                    }
+                }
+            }
+        }
+    }
 
+    void UnregisterPlayer(PlayerInput playerInput)
+    {
+        // Remove the player from playerlist
+        playerList.Remove(playerInput);
+        
+        // 
+        if(PlayerLeftGame != null)
+        {
+            PlayerLeftGame(playerInput);
+        }
+
+        Destroy(playerInput.transform.parent.gameObject);
     }
 }
