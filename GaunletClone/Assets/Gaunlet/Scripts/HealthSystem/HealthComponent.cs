@@ -2,23 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Manages health by receiving events from hurtboxes.
+/// </summary>
 public class HealthComponent : MonoBehaviour
 {
+    [Tooltip("Every hurtbox registered to this component.")]
     protected List<HurtBox> hurtBoxes = new List<HurtBox>();
 
-    [SerializeField] protected HealthData healthData = new HealthData();
+    [SerializeField, Tooltip("Serializable state of health.")] 
+    protected HealthData healthData = new HealthData();
 
     public delegate void OnHealthDepleted();
+    [Tooltip("Called when health becomes at or below min health.")]
     public OnHealthDepleted onHealthDepleted;
 
     public delegate void OnTakeDamage();
+    [Tooltip("Called anytime the health component receives damage.")]
     public OnTakeDamage onTakeDamage;
 
     protected void OnEnable()
     {
+        // Reset health
         healthData.CurHealth = healthData.maxHealth;
     }
 
+    /// <summary>
+    /// Add a hurtbox to the list of hurtboxes managed by this health component.
+    /// </summary>
+    /// <param name="hurtBox"></param>
     public void RegisterHurtBox(HurtBox hurtBox)
     {
         if (!hurtBoxes.Contains(hurtBox))
@@ -27,6 +39,10 @@ public class HealthComponent : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Receive damage defined by damage info parameter.
+    /// </summary>
+    /// <param name="info"></param>
     public void TakeDamage(DamageInfo info)
     {
         healthData.CurHealth = Mathf.Clamp(healthData.CurHealth - info.value, healthData.minHealth, healthData.maxHealth);

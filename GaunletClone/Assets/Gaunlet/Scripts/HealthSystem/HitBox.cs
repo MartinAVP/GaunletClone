@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Sends damage events when overlapping another hurtbox.
+/// Must be paired with a damage component at or above this in the heirarchy.
+/// </summary>
 public class HitBox : MonoBehaviour
 {
     protected DamageComponent damageComponent;
