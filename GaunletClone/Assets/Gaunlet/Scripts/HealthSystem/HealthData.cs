@@ -2,9 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthData
+[System.Serializable]
+public struct HealthData
 {
     public float minHealth;
     public float maxHealth;
-    public float curHealth;
+    private float curHealth;
+    public float CurHealth
+    {
+        get { return curHealth; }
+        set { curHealth = value; }
+    }
 }

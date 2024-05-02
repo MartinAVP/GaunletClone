@@ -298,6 +298,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6e2556e8ff5f694f895db40eea1ee59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  info:
+    value: 1
 --- !u!65 &279378868
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -814,6 +816,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd60c87d0087b96448805a916a21a9a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthData:
+    minHealth: 0
+    maxHealth: 10
 --- !u!135 &1673100441
 SphereCollider:
   m_ObjectHideFlags: 0

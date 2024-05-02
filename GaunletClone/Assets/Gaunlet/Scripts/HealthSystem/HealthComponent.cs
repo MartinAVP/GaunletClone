@@ -6,7 +6,7 @@ public class HealthComponent : MonoBehaviour
 {
     protected List<HurtBox> hurtBoxes = new List<HurtBox>();
 
-    protected HealthData healthData = new HealthData();
+    [SerializeField] protected HealthData healthData = new HealthData();
 
     public delegate void OnHealthDepleted();
     public OnHealthDepleted onHealthDepleted;
@@ -16,7 +16,7 @@ public class HealthComponent : MonoBehaviour
 
     protected void OnEnable()
     {
-        healthData.curHealth = healthData.maxHealth;
+        healthData.CurHealth = healthData.maxHealth;
     }
 
     public void RegisterHurtBox(HurtBox hurtBox)
@@ -29,13 +29,13 @@ public class HealthComponent : MonoBehaviour
 
     public void TakeDamage(DamageInfo info)
     {
-        healthData.curHealth = Mathf.Clamp(healthData.curHealth - info.value, healthData.minHealth, healthData.maxHealth);
+        healthData.CurHealth = Mathf.Clamp(healthData.CurHealth - info.value, healthData.minHealth, healthData.maxHealth);
 
-        Debug.Log(name + " took " + info.value + " damage.");
+        Debug.Log(name + " took " + info.value + " damage. Remaining health: " + healthData.CurHealth);
 
         onTakeDamage?.Invoke();
 
-        if(healthData.curHealth < healthData.minHealth)
+        if(healthData.CurHealth <= healthData.minHealth)
         {
             Debug.Log(name + " health was depleted.");
 
