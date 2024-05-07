@@ -19,4 +19,4 @@ MonoBehaviour:
   type: 0
   inventory: []
   prefab: {fileID: 0}
-  UIColor: {r: 0.1273585, g: 0.1273585, b: 1, a: 0}
+  UIColor: {r: 0.1273585, g: 0.1273585, b: 1, a: 1}
