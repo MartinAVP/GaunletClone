@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 /// <summary>
 /// Base class for all enemies. 
@@ -26,6 +27,8 @@ public class EnemyBase : MonoBehaviour, IEnemyInterface
 
     protected Rigidbody rb;
     protected Vector3 accumulateMoveInput = Vector3.zero;
+
+    public IObjectPool<EnemyBase> Pool { get; set; }
 
     private void Awake()
     {
