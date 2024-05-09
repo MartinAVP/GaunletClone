@@ -55,6 +55,9 @@ public class UIManager : MonoBehaviour
         Transform currentScore = null;
         Transform currentInsertCoin = null;
 
+        Transform currentHealthTitle = null;
+        Transform currentScoreTitle = null;
+
         int k = 0;
         // Iterate through every card
         foreach (Transform card in playerCards)
@@ -65,14 +68,21 @@ public class UIManager : MonoBehaviour
             {
                 if (cardInfo.name == "TypeName")
                     currentName = cardInfo;
+                // Number Variables
                 if (cardInfo.name == "HealthNum")
                     currentHealth = cardInfo;
                 if (cardInfo.name == "ScoreNum")
                     currentScore = cardInfo;
+                // Insert Coins
                 if (cardInfo.name == "InsertCoinText")
                     currentInsertCoin = cardInfo;
+                // Var Titles
+                if (cardInfo.name == "HealthTitle")
+                    currentHealthTitle = cardInfo;
+                if (cardInfo.name == "ScoreTitle")
+                    currentScoreTitle = cardInfo;
             }
-            playerData.Add(new UIPlayerData(currentHealth, currentScore, currentName, currentInsertCoin, false));
+            playerData.Add(new UIPlayerData(currentHealth, currentScore, currentName, currentInsertCoin, false, currentHealthTitle, currentScoreTitle));
 
             k++;
         }
@@ -82,35 +92,75 @@ public class UIManager : MonoBehaviour
     public void spawnPlayer(Players player)
     {
         // Check if list is empty
-        bool listEmpty = true;
+        //bool spaceFound = true;
 
-        int i = 0;
-        foreach (UIPlayerData data in playerData)
+        //int i = 0;
+        int foundAt = playerData.Count - 1;
+
+        List<UIPlayerData> reversedData = playerData;
+        reversedData.Reverse();
+
+        for (int k = 0; k < playerData.Count; k++)
         {
-            if (data.used == true)
+            Debug.Log(k + " /// " + playerData[k].used);
+            // Check if the Slot is being used
+            if (playerData[k].used == true)
             {
-                listEmpty = false;
-                break;
+                // Check if the slot used is the last slot in availavle
+                if(k < playerData.Count)
+                {
+                    foundAt = k + 1;
+                    Debug.Log("Found Space At" + (k + 1));
+                    break;
+                }
+                else
+                {
+                    Debug.LogWarning("List is Full");
+                    break;
+                }
             }
 
-            i++;
+            //i++;
         }
 
+/*        for (int k = playerData.Count; k > 0; k--)
+        {
+            Debug.Log(k + " /// " + playerData[k].used);
+            // Check if the Slot is being used
+            if (playerData[k].used == true)
+            {
+                // Check if the slot used is the last slot in availavle
+                if (k + 1 < playerData.Count)
+                {
+                    foundAt = k + 1;
+                    Debug.Log("Found Space At");
+                    break;
+                }
+                else
+                {
+                    Debug.LogWarning("List is Full");
+                    break;
+                }
+            }
+        }*/
+
         //List empty set to first slot.
-        if (listEmpty == false)
+/*        if (spaceFound == true)
         {
             i = 0;
             print("List is empty");
-        }
+        }*/
 
-        print(i);
+        //print(foundAt);
 
-        playerData[i].used = true;
-        playerData[i].health.GetComponent<TextMeshProUGUI>().text = player.health.ToString();
-        playerData[i].score.GetComponent<TextMeshProUGUI>().text = 0.ToString();
-        playerData[i].name.GetComponent<TextMeshProUGUI>().text = player.name;
-        playerData[i].insertCoin.gameObject.SetActive(false);
-        setColor(playerData[i], player);
+        playerData[foundAt].used = true;
+        //print(playerData[i].used);
+
+        playerData[foundAt].health.GetComponent<TextMeshProUGUI>().text = player.health.ToString();
+        playerData[foundAt].score.GetComponent<TextMeshProUGUI>().text = 0.ToString();
+        playerData[foundAt].name.GetComponent<TextMeshProUGUI>().text = player.name;
+        playerData[foundAt].insertCoin.gameObject.SetActive(false);
+        setColor(playerData[foundAt], player);
     }
 
     private void setColor(UIPlayerData data, Players player)
@@ -119,6 +169,8 @@ public class UIManager : MonoBehaviour
         data.score.GetComponent<TextMeshProUGUI>().color = player.UIColor;
         data.name.GetComponent<TextMeshProUGUI>().color = player.UIColor;
         data.insertCoin.GetComponent<TextMeshProUGUI>().color = player.UIColor;
+        data.scoreTitle.GetComponent<TextMeshProUGUI>().color = player.UIColor;
+        data.healthTitle.GetComponent<TextMeshProUGUI>().color = player.UIColor;
     }
 
     private void cleanColor(UIPlayerData data)
@@ -127,6 +179,8 @@ public class UIManager : MonoBehaviour
         data.score.GetComponent<TextMeshProUGUI>().color = Color.white;
         data.name.GetComponent<TextMeshProUGUI>().color = Color.white;
         data.insertCoin.GetComponent<TextMeshProUGUI>().color = Color.white;
+        data.scoreTitle.GetComponent<TextMeshProUGUI>().color = Color.white;
+        data.healthTitle.GetComponent<TextMeshProUGUI>().color = Color.white;
     }
 
     [System.Serializable]
@@ -136,15 +190,21 @@ public class UIManager : MonoBehaviour
         public Transform score;
         public Transform name;
         public Transform insertCoin;
+
+        public Transform healthTitle;
+        public Transform scoreTitle;
+
         public bool used;
 
-        public UIPlayerData(Transform health, Transform score, Transform name, Transform insertCoin, bool used)
+        public UIPlayerData(Transform health, Transform score, Transform name, Transform insertCoin, bool used, Transform healthTitle, Transform scoreTitle)
         {
             this.health = health;
             this.score = score;
             this.name = name;
             this.insertCoin = insertCoin;
             this.used = used;
+            this.healthTitle = healthTitle;
+            this.scoreTitle = scoreTitle;
         }
     }
 }
