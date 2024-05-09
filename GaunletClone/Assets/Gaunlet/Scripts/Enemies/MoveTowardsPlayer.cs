@@ -88,6 +88,8 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
         rawInput = input;
         enemy.Rigidbody.velocity = input * speed;
 
+        Debug.Log(name + " is targetting " + solver.Target);
+
         yield return new WaitForSeconds(.5f);
         onComplete?.Invoke();
     }

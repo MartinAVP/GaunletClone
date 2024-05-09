@@ -30,7 +30,7 @@ public class ObstacleAvoidance : SteeringContext
         // Create a detector if we don't have one already. Set default values including search layer for obstacles.
         if(compassDetector == null)
             compassDetector = gameObject.AddComponent<CompassDetector>();
-        compassDetector.layers = new string[] { "Default" };
+        compassDetector.layers = new string[] { "CharacterCollision" };
         compassDetector.radius = radius;
     }
 
