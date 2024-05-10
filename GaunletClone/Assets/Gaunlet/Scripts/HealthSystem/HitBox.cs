@@ -14,7 +14,7 @@ public class HitBox : MonoBehaviour
     {
         if (!FindDamageComponent())
         {
-            Debug.LogError(name + " hit box could not find damage component in heirarchy.");
+            Debug.LogWarning(name + " hit box could not find damage component in heirarchy.");
         }
     }
 
@@ -25,16 +25,15 @@ public class HitBox : MonoBehaviour
     protected bool FindDamageComponent()
     {
         Transform root = transform;
-        while (root)
+        while (root != null)
         {
-            damageComponent = GetComponent<DamageComponent>();
+            damageComponent = root.GetComponent<DamageComponent>();
             if (damageComponent != null)
             {
                 damageComponent.RegisterHitBox(this);
                 return true;
             }
-            else
-                root = transform.parent;
+            root = root.parent;
         }
 
         return false;

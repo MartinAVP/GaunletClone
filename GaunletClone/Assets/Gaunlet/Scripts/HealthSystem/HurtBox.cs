@@ -14,7 +14,7 @@ public class HurtBox : MonoBehaviour
     protected void Awake()
     {
         if (!FindHealthComponent())
-            Debug.Log(name + " failed to find a health component in the transform heirarchy.");
+            Debug.LogWarning(name + " failed to find a health component in the transform heirarchy.");
     }
 
     /// <summary>
@@ -26,14 +26,16 @@ public class HurtBox : MonoBehaviour
         Transform root = transform;
         while (root != null)
         {
-            healthComponent = GetComponent<HealthComponent>();
+            Debug.Log(name + " checking " + root.name + " for health component.");
+
+            healthComponent = root.GetComponent<HealthComponent>();
             if(healthComponent != null)
             {
-                // register hurt box
+                healthComponent.RegisterHurtBox(this);
                 return true;
             }
-            else 
-                root = transform.parent;
+
+            root = root.parent;
         }
 
         return false;

@@ -63,8 +63,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7952745428288452497}
   - component: {fileID: 6448483591957957528}
+  - component: {fileID: 3529317976154617039}
+  - component: {fileID: 7890326742296324883}
   m_Layer: 7
-  m_Name: PlayerHurtBoxes
+  m_Name: HitBoxes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,6 +108,30 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3529317976154617039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5894445215958260159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 710bb7840622eae42b581c9d3f768e64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7890326742296324883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5894445215958260159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 874a62f2ff09de94aaf360eaf07c669d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7899072390234285445
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,8 +145,8 @@ GameObject:
   - component: {fileID: 8480464760381068091}
   - component: {fileID: 2529709201375604686}
   - component: {fileID: 2358527440414487373}
-  - component: {fileID: 9196558454548399317}
-  - component: {fileID: 2799631003167614685}
+  - component: {fileID: 6513467769897260229}
+  - component: {fileID: 4060977808579880341}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -236,7 +262,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDetectionRadius: 10
   obstacleDetectionRadius: 4
---- !u!114 &9196558454548399317
+--- !u!114 &6513467769897260229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7899072390234285445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd60c87d0087b96448805a916a21a9a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthData:
+    minHealth: 0
+    maxHealth: 1
+--- !u!114 &4060977808579880341
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -250,15 +291,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info:
     value: 1
---- !u!114 &2799631003167614685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7899072390234285445}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 710bb7840622eae42b581c9d3f768e64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

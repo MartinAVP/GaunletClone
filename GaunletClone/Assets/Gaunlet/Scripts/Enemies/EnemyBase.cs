@@ -30,7 +30,7 @@ public class EnemyBase : MonoBehaviour, IEnemyInterface
 
     public IObjectPool<EnemyBase> Pool { get; set; }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         // Set constraints on the rigidbody.
         rb = GetComponent<Rigidbody>();
@@ -39,11 +39,33 @@ public class EnemyBase : MonoBehaviour, IEnemyInterface
         rb.useGravity = false;
     }
 
+    private void OnEnable()
+    {
+        Debug.Log(name + " enemy enabled.");
+        ResetEnemy();
+    }
+
+    protected virtual void Kill()
+    {
+        Debug.Log(name + " enemy killed.");
+        Pool.Release(this);
+    }
+
+    protected virtual void ResetEnemy()
+    {
+        Debug.Log(name + " enemy reset.");
+    }
+
     /// <summary>
     /// Functionality to run when current behvior completes. By default loops the current behavior.
     /// </summary>
     protected virtual void OnBehaviorComplete()
     {
         currBehavior.Execute(this, OnBehaviorComplete);
+    }
+
+    private void OnDisable()
+    {
+        Debug.Log(name + " enemy disabled.");
     }
 }

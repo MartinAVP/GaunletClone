@@ -13,17 +13,21 @@ public class Ghost : EnemyBase
 
     MoveTowardsPlayer moveTowardsPlayer;
 
-    protected void Start()
+    protected override void Awake()
     {
+        base.Awake();
+
         moveTowardsPlayer = gameObject.AddComponent<MoveTowardsPlayer>();
         moveTowardsPlayer.PlayerDetectionRadius = playerDetectionRadius;
         moveTowardsPlayer.ObstacleDetectionRadius = obstacleDetectionRadius;
         CurrBehavior = moveTowardsPlayer;
         OnBehaviorComplete();
+
+        HealthComponent health = GetComponent<HealthComponent>();
+        if(health != null)
+        {
+            health.onHealthDepleted += Kill;
+        }
     }
 
-    protected void OnTriggerEnter(Collider other)
-    {
-        // TODO: Ghost deals damage & dies when it hits a player.
-    }
 }

@@ -47,13 +47,13 @@ public class HealthComponent : MonoBehaviour
     {
         healthData.CurHealth = Mathf.Clamp(healthData.CurHealth - info.value, healthData.minHealth, healthData.maxHealth);
 
-        Debug.Log(name + " took " + info.value + " damage. Remaining health: " + healthData.CurHealth);
+        //Debug.Log(name + " took " + info.value + " damage. Remaining health: " + healthData.CurHealth);
 
         onTakeDamage?.Invoke();
 
         if(healthData.CurHealth <= healthData.minHealth)
         {
-            Debug.Log(name + " health was depleted.");
+            //Debug.Log(name + " health was depleted.");
 
             onHealthDepleted?.Invoke();
         }
