@@ -31,7 +31,7 @@ public class TargetSeeking : SteeringContext
         if (sphereDetector == null)
             sphereDetector = gameObject.AddComponent<SphereDetector>();
         sphereDetector.radius = radius;
-        sphereDetector.layers = new string[1] { "PlayerTrigger" };
+        sphereDetector.layers = new string[1] { "Player" };
     }
 
     /// <summary>
