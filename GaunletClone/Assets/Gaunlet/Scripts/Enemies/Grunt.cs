@@ -3,36 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Ghost enemy.
-/// Chases players and die when it collides with one.
+/// Grunt aproaches the player until they are close and facing the player.
+/// Then should repeatedly swing its club at the player until the player moves away.
 /// </summary>
-public class Ghost : EnemyBase
+public class Grunt : EnemyBase
 {
     public float playerDetectionRadius = 10;
     public float obstacleDetectionRadius = 4;
 
-    MoveTowardsPlayer moveTowardsPlayer;
+    [SerializeField] protected Animation atttackAnimation;
+
+    protected PlayClip attackBehavior;
+    protected MoveTowardsPlayer moveTowardsPlayer;
 
     protected override void Awake()
     {
         base.Awake();
 
+        attackBehavior = gameObject.AddComponent<PlayClip>();   
+        attackBehavior.SetAnimation(atttackAnimation);
+
         moveTowardsPlayer = gameObject.AddComponent<MoveTowardsPlayer>();
         moveTowardsPlayer.PlayerDetectionRadius = playerDetectionRadius;
         moveTowardsPlayer.ObstacleDetectionRadius = obstacleDetectionRadius;
-
-        HealthComponent health = GetComponent<HealthComponent>();
-        if(health != null)
-        {
-            health.onHealthDepleted += Kill;
-        }
     }
 
     protected override void OnEnable()
     {
         base.OnEnable();
 
-        CurrBehavior = moveTowardsPlayer;
+        /* TESTONLY - testing animation */
+
+        CurrBehavior = attackBehavior;
         OnBehaviorComplete();
+
+        /* ENDTEST */
     }
+
 }
