@@ -12,6 +12,7 @@ public class ContextSolver : MonoBehaviour
 
     protected Compass compass = new Compass();
     protected SteeringData data = new SteeringData();
+    public ref SteeringData Data { get { return ref data; } }
 
     private void Awake()
     {

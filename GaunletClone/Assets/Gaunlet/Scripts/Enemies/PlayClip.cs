@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class PlayClip : MonoBehaviour, IEnemyBehaviorInterface
 {
     protected new Animation animation;
+    protected UnityAction onComplete;
 
     public void SetAnimation(Animation newAnimation)
     {
@@ -17,12 +18,14 @@ public class PlayClip : MonoBehaviour, IEnemyBehaviorInterface
 
         animation.clip.AddEvent(animEnd);
         animation.clip.legacy = true;
-        animation.AddClip(animation.clip, "attack");
+        //animation.AddClip(animation.clip, "attack");
     }
 
     public void Execute(IEnemyInterface enemy, UnityAction onComplete)
     {
         Debug.Log(name + " execute");
+        this.onComplete = onComplete;
+        animation.Rewind();
         animation.Play();
     }
 
@@ -36,5 +39,7 @@ public class PlayClip : MonoBehaviour, IEnemyBehaviorInterface
     protected void OnComplete()
     {
         Debug.Log(name + " animation finished.");
+
+        onComplete?.Invoke();
     }
 }

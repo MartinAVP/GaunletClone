@@ -10,11 +10,14 @@ public class Grunt : EnemyBase
 {
     public float playerDetectionRadius = 10;
     public float obstacleDetectionRadius = 4;
+    public float attackDistance = 1f;
 
     [SerializeField] protected Animation atttackAnimation;
 
     protected PlayClip attackBehavior;
     protected MoveTowardsPlayer moveTowardsPlayer;
+
+    public Transform player;
 
     protected override void Awake()
     {
@@ -32,12 +35,41 @@ public class Grunt : EnemyBase
     {
         base.OnEnable();
 
-        /* TESTONLY - testing animation */
-
-        CurrBehavior = attackBehavior;
+        CurrBehavior = moveTowardsPlayer;
         OnBehaviorComplete();
 
-        /* ENDTEST */
+        StartCoroutine(CheckDistanceToTarget());
+    }
+
+    protected IEnumerator CheckDistanceToTarget()
+    {
+        while(true)
+        {
+            Vector3 pos = moveTowardsPlayer.Target;
+            float distance = Vector3.Distance(transform.position, pos);
+
+            Debug.Log(name + " target " + pos + " dist " + distance);
+
+            if(distance < attackDistance &&
+                CurrBehavior != attackBehavior)
+            {
+                CurrBehavior.Cancel();
+                CurrBehavior = attackBehavior;
+                OnBehaviorComplete();
+            }
+            else if(distance > attackDistance &&
+                CurrBehavior != moveTowardsPlayer)
+            {
+                CurrBehavior = moveTowardsPlayer;
+            }
+
+            if(rb.velocity.magnitude > 0)
+            {
+                transform.LookAt(transform.position + rb.velocity);
+            }
+
+            yield return new WaitForSeconds(.1f);
+        }
     }
 
 }

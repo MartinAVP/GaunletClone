@@ -33,6 +33,14 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
         }
     }
 
+    public Vector3 Target { 
+        get 
+        {
+            solver.Data.targets.Clear();
+            return seeking.GetMostDesiredTarget(ref solver.Data);
+        } 
+    }
+
     private float sightDistance;
     private float attackRange;
     private float speed = 2;
@@ -74,6 +82,7 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
     public void Cancel()
     {
         StopAllCoroutines();
+        enemy.Rigidbody.velocity = Vector3.zero;
     }
 
     /// <summary>
@@ -94,6 +103,8 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
 
     private void OnCollisionStay(Collision collision)
     {
+        if (enemy.CurrBehavior != this) return;
+
         // Slide along surface
         Vector3 posToTarget = (collision.GetContact(0).point - transform.position).normalized;
         posToTarget.y = transform.position.y;
