@@ -30,6 +30,9 @@ public class EnemyBase : MonoBehaviour, IEnemyInterface
 
     public IObjectPool<EnemyBase> Pool { get; set; }
 
+    /// <summary>
+    /// Override to add functionality that should happen once, only the first time the enemy spawns.
+    /// </summary>
     protected virtual void Awake()
     {
         // Set constraints on the rigidbody.
@@ -39,21 +42,12 @@ public class EnemyBase : MonoBehaviour, IEnemyInterface
         rb.useGravity = false;
     }
 
-    private void OnEnable()
+    /// <summary>
+    /// Override to add custom functionality when this enemy spawns.
+    /// </summary>
+    protected virtual void OnEnable()
     {
-        Debug.Log(name + " enemy enabled.");
-        ResetEnemy();
-    }
-
-    protected virtual void Kill()
-    {
-        Debug.Log(name + " enemy killed.");
-        Pool.Release(this);
-    }
-
-    protected virtual void ResetEnemy()
-    {
-        Debug.Log(name + " enemy reset.");
+        rb.velocity = Vector3.zero;
     }
 
     /// <summary>
@@ -64,8 +58,11 @@ public class EnemyBase : MonoBehaviour, IEnemyInterface
         currBehavior.Execute(this, OnBehaviorComplete);
     }
 
-    private void OnDisable()
+    /// <summary>
+    /// Logic to clean up a dead enemy.
+    /// </summary>
+    protected virtual void Kill()
     {
-        Debug.Log(name + " enemy disabled.");
+        Pool.Release(this);
     }
 }

@@ -20,8 +20,6 @@ public class Ghost : EnemyBase
         moveTowardsPlayer = gameObject.AddComponent<MoveTowardsPlayer>();
         moveTowardsPlayer.PlayerDetectionRadius = playerDetectionRadius;
         moveTowardsPlayer.ObstacleDetectionRadius = obstacleDetectionRadius;
-        CurrBehavior = moveTowardsPlayer;
-        OnBehaviorComplete();
 
         HealthComponent health = GetComponent<HealthComponent>();
         if(health != null)
@@ -30,4 +28,9 @@ public class Ghost : EnemyBase
         }
     }
 
+    protected override void OnEnable()
+    {
+        CurrBehavior = moveTowardsPlayer;
+        OnBehaviorComplete();
+    }
 }

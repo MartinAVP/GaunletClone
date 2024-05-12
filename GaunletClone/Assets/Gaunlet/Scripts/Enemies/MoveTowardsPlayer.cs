@@ -88,7 +88,7 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
         rawInput = input;
         enemy.Rigidbody.velocity = input * speed;
 
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.6f);
         onComplete?.Invoke();
     }
 

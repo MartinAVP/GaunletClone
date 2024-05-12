@@ -26,7 +26,7 @@ public class HurtBox : MonoBehaviour
         Transform root = transform;
         while (root != null)
         {
-            Debug.Log(name + " checking " + root.name + " for health component.");
+            //Debug.Log(name + " checking " + root.name + " for health component.");
 
             healthComponent = root.GetComponent<HealthComponent>();
             if(healthComponent != null)
