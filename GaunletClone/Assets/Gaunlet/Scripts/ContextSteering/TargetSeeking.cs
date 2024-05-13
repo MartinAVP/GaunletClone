@@ -41,7 +41,7 @@ public class TargetSeeking : SteeringContext
     /// <param name="data"></param>
     public override void GetWeights(ref SteeringData data)
     {
-        GetMostDesiredTarget(ref data);
+        data.target = GetMostDesiredTarget(data.targets);
 
         // Weigh the target
         Vector3 direction = (data.target - transform.position);
@@ -68,25 +68,27 @@ public class TargetSeeking : SteeringContext
         }
     }
 
-    public Vector3 GetMostDesiredTarget(ref SteeringData data)
+    public Vector3 GetMostDesiredTarget(List<Vector3> outTargets = null)
     {
         // Gather context from environment.
-        sphereDetector.Detect(ref data.targets);
+        List<Vector3> targets = new List<Vector3>();
+        sphereDetector.Detect(ref targets);
 
         // Pick closest target
         float distance = float.MaxValue;
-        Vector3 direction;
-        foreach (Vector3 target in data.targets)
+        Vector3 direction, target = Vector3.zero;
+        foreach (Vector3 potentialTarget in targets)
         {
-            direction = (target - transform.position);
+            direction = (potentialTarget - transform.position);
 
             if (direction.magnitude < distance)
             {
                 distance = direction.magnitude;
-                data.target = target;
+                target = potentialTarget;
             }
         }
 
-        return data.target;
+        outTargets = targets;
+        return target;
     }
 }

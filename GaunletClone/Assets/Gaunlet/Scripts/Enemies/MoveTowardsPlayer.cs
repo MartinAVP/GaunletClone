@@ -37,7 +37,7 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
         get 
         {
             solver.Data.targets.Clear();
-            return seeking.GetMostDesiredTarget(ref solver.Data);
+            return seeking.GetMostDesiredTarget();
         } 
     }
 
@@ -99,6 +99,11 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
 
         yield return new WaitForSeconds(.6f);
         onComplete?.Invoke();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        OnCollisionStay(collision);
     }
 
     private void OnCollisionStay(Collision collision)

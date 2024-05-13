@@ -12,6 +12,8 @@ public class Grunt : EnemyBase
     public float obstacleDetectionRadius = 4;
     public float attackDistance = 1f;
 
+    [SerializeField] protected GameObject mesh;
+
     [SerializeField] protected Animation atttackAnimation;
 
     protected PlayClip attackBehavior;
@@ -63,7 +65,7 @@ public class Grunt : EnemyBase
 
             if(rb.velocity.magnitude > 0)
             {
-                transform.LookAt(transform.position + rb.velocity);
+                mesh.transform.LookAt(transform.position + rb.velocity);
             }
 
             yield return new WaitForSeconds(.1f);
