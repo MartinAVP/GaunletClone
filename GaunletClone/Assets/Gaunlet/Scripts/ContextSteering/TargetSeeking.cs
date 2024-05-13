@@ -31,7 +31,7 @@ public class TargetSeeking : SteeringContext
         if (sphereDetector == null)
             sphereDetector = gameObject.AddComponent<SphereDetector>();
         sphereDetector.radius = radius;
-        sphereDetector.layers = new string[1] { "PlayerTrigger" };
+        sphereDetector.layers = new string[1] { "Player" };
     }
 
     /// <summary>
@@ -41,25 +41,11 @@ public class TargetSeeking : SteeringContext
     /// <param name="data"></param>
     public override void GetWeights(ref SteeringData data)
     {
-        // Gather context from environment.
-        sphereDetector.Detect(ref data.targets);
-
-        // Pick closest target
-        float distance = float.MaxValue;
-        Vector3 direction;
-        foreach (Vector3 target in data.targets) 
-        {
-            direction = (target - transform.position);
-
-            if(direction.magnitude < distance)
-            {
-                distance = direction.magnitude;
-                data.target = target;
-            }
-        }
+        data.target = GetMostDesiredTarget(data.targets);
 
         // Weigh the target
-        direction = (data.target - transform.position);
+        Vector3 direction = (data.target - transform.position);
+        float distance = direction.magnitude;
         direction = direction.normalized;
         for(int i = 0; i < Compass.Length; i++)
         {
@@ -80,5 +66,29 @@ public class TargetSeeking : SteeringContext
                 data.interest[i] = value;
             }
         }
+    }
+
+    public Vector3 GetMostDesiredTarget(List<Vector3> outTargets = null)
+    {
+        // Gather context from environment.
+        List<Vector3> targets = new List<Vector3>();
+        sphereDetector.Detect(ref targets);
+
+        // Pick closest target
+        float distance = float.MaxValue;
+        Vector3 direction, target = Vector3.zero;
+        foreach (Vector3 potentialTarget in targets)
+        {
+            direction = (potentialTarget - transform.position);
+
+            if (direction.magnitude < distance)
+            {
+                distance = direction.magnitude;
+                target = potentialTarget;
+            }
+        }
+
+        outTargets = targets;
+        return target;
     }
 }

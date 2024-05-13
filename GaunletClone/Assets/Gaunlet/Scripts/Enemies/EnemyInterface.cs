@@ -9,4 +9,8 @@ public interface IEnemyInterface
     /// "Rigidbody of this enemy. Authoriative source of physics driven movement."
     /// </summary>
     public Rigidbody Rigidbody { get; }
+    public IEnemyBehaviorInterface CurrBehavior
+    {
+        get;
+    }
 }

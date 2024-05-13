@@ -11,6 +11,8 @@ public class Ghost : EnemyBase
     public float playerDetectionRadius = 10;
     public float obstacleDetectionRadius = 4;
 
+    [SerializeField] protected GameObject mesh;
+
     MoveTowardsPlayer moveTowardsPlayer;
 
     protected override void Awake()
@@ -25,12 +27,29 @@ public class Ghost : EnemyBase
         if(health != null)
         {
             health.onHealthDepleted += Kill;
+            health.onTakeDamage += KillIfTouchPlayer;
         }
     }
 
     protected override void OnEnable()
     {
+        base.OnEnable();
+
         CurrBehavior = moveTowardsPlayer;
         OnBehaviorComplete();
     }
+
+    protected void FixedUpdate()
+    {
+        mesh.transform.LookAt(transform.position + rb.velocity);
+    }
+
+    protected void KillIfTouchPlayer(DamageInfo info)
+    {
+        if(info.type == DamageType.Body)
+        {
+            Kill();
+        }
+    }
+
 }

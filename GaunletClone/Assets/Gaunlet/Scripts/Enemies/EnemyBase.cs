@@ -55,6 +55,7 @@ public class EnemyBase : MonoBehaviour, IEnemyInterface
     /// </summary>
     protected virtual void OnBehaviorComplete()
     {
+        //Debug.Log(name + " on complete");
         currBehavior.Execute(this, OnBehaviorComplete);
     }
 
