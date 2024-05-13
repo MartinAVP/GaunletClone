@@ -23,7 +23,7 @@ public class PlayClip : MonoBehaviour, IEnemyBehaviorInterface
 
     public void Execute(IEnemyInterface enemy, UnityAction onComplete)
     {
-        Debug.Log(name + " execute");
+        //Debug.Log(name + " execute");
         this.onComplete = onComplete;
         animation.Rewind();
         animation.Play();
@@ -38,7 +38,7 @@ public class PlayClip : MonoBehaviour, IEnemyBehaviorInterface
 
     protected void OnComplete()
     {
-        Debug.Log(name + " animation finished.");
+        //Debug.Log(name + " animation finished.");
 
         onComplete?.Invoke();
     }

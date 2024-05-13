@@ -17,8 +17,6 @@ public class Grunt : EnemyBase
     protected PlayClip attackBehavior;
     protected MoveTowardsPlayer moveTowardsPlayer;
 
-    public Transform player;
-
     protected override void Awake()
     {
         base.Awake();
@@ -48,7 +46,7 @@ public class Grunt : EnemyBase
             Vector3 pos = moveTowardsPlayer.Target;
             float distance = Vector3.Distance(transform.position, pos);
 
-            Debug.Log(name + " target " + pos + " dist " + distance);
+            //Debug.Log(name + " target " + pos + " dist " + distance);
 
             if(distance < attackDistance &&
                 CurrBehavior != attackBehavior)
