@@ -25,6 +25,7 @@ public class Ghost : EnemyBase
         if(health != null)
         {
             health.onHealthDepleted += Kill;
+            health.onTakeDamage += KillIfTouchPlayer;
         }
     }
 
@@ -34,5 +35,13 @@ public class Ghost : EnemyBase
 
         CurrBehavior = moveTowardsPlayer;
         OnBehaviorComplete();
+    }
+
+    protected void KillIfTouchPlayer(DamageInfo info)
+    {
+        if(info.type == DamageType.Body)
+        {
+            Kill();
+        }
     }
 }

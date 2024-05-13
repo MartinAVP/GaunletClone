@@ -17,7 +17,7 @@ public class HealthComponent : MonoBehaviour
     [Tooltip("Called when health becomes at or below min health.")]
     public OnHealthDepleted onHealthDepleted;
 
-    public delegate void OnTakeDamage();
+    public delegate void OnTakeDamage(DamageInfo info);
     [Tooltip("Called anytime the health component receives damage.")]
     public OnTakeDamage onTakeDamage;
 
@@ -49,7 +49,7 @@ public class HealthComponent : MonoBehaviour
 
         Debug.Log(name + " took " + info.value + " damage. Remaining health: " + healthData.CurHealth);
 
-        onTakeDamage?.Invoke();
+        onTakeDamage?.Invoke(info);
 
         if(healthData.CurHealth <= healthData.minHealth)
         {

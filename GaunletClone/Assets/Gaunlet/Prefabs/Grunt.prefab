@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info:
+    type: 1
     value: 2
 --- !u!1 &5580698104520968755
 GameObject:
@@ -226,6 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info:
+    type: 0
     value: 1
 --- !u!1 &8278046376440892637
 GameObject:
