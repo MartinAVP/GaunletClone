@@ -56,6 +56,8 @@ public class HealthComponent : MonoBehaviour
 
         if(healthData.CurHealth <= healthData.minHealth)
         {
+            healthData.CurHealth = healthData.minHealth;
+
             Debug.Log(name + " health was depleted.");
 
             onHealthDepleted?.Invoke();

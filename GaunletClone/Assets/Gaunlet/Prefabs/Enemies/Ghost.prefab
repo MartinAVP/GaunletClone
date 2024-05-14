@@ -425,7 +425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthData:
     minHealth: 0
-    maxHealth: 1
+    maxHealth: 0
 --- !u!114 &4060977808579880341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -440,4 +440,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info:
     type: 0
-    value: 1
+    value: 10

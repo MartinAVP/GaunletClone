@@ -250,7 +250,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthData:
     minHealth: 0
-    maxHealth: 0
+    maxHealth: 5
 --- !u!1 &5089833810757556919
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,7 +384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info:
     type: 1
-    value: 2
+    value: 5
 --- !u!1 &6589867424429621057
 GameObject:
   m_ObjectHideFlags: 0

@@ -538,4 +538,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthData:
     minHealth: 0
-    maxHealth: 10
+    maxHealth: 600
