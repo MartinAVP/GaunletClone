@@ -21,6 +21,9 @@ public class Demon : EnemyBase
 
     [SerializeField] protected GameObject projectilePrefab, projectileSpawnPoint;
 
+    [SerializeField] protected GameObject meleeWeapon;
+    protected bool meleeWeaponDefaultActive = false;
+
     protected PlayClip meleeAttackBehavior;
     protected PlayClip rangedAttackBehavior;    // Range attack will play a clip that calls an animation event on this to fire the projectile.
     protected MoveTowardsPlayer chaseBehavior;
@@ -47,13 +50,23 @@ public class Demon : EnemyBase
         chaseBehavior.ObstacleDetectionRadius = obstacleDetectionRadius;
 
         timeUntilRangedAttack = Random.Range(minProjectileInterval, maxProjectileInterval);
+
+        meleeWeaponDefaultActive = meleeWeapon.activeInHierarchy;
+
+        HealthComponent health = GetComponent<HealthComponent>();
+        if (health != null)
+        {
+            health.onHealthDepleted += Kill;
+        }
     }
 
     protected override void OnEnable()
     {
         base.OnEnable();
 
-        PickBehavior();
+        meleeWeapon.SetActive(meleeWeaponDefaultActive);
+
+        CurrBehavior = chaseBehavior;
         StartBehavior();
     }
 
@@ -87,18 +100,21 @@ public class Demon : EnemyBase
         }
         else if (distance > attackDistance)
         {
-            if (chaseTime > timeUntilRangedAttack)
+            if (target != Vector3.zero && distance <= playerDetectionRadius && chaseTime > timeUntilRangedAttack)
             {
                 CurrBehavior = rangedAttackBehavior;
                 timeUntilRangedAttack = Random.Range(minProjectileInterval, maxProjectileInterval);
                 rb.velocity = Vector3.zero;
                 shouldRangAttack = false;
+                chaseTime = 0;
             }
             else
             {
                 CurrBehavior = chaseBehavior;
             }
         }
+
+        Debug.Log(name + " " + CurrBehavior);
     }
 
     protected IEnumerator RangedAttackTimer()
@@ -120,7 +136,7 @@ public class Demon : EnemyBase
 
     public void FireProjectile()
     {
-        Debug.Log(name + " fire projectile");
+        //Debug.Log(name + " fire projectile");
         Instantiate(projectilePrefab, projectileSpawnPoint.transform.position, mesh.transform.rotation);
     }
 }

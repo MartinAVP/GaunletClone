@@ -10,7 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6102736132643744393}
   - component: {fileID: 6129942699997373433}
-  m_Layer: 0
+  - component: {fileID: 203533640950050784}
+  - component: {fileID: 8124040317906855820}
+  - component: {fileID: 5529219558827829663}
+  m_Layer: 7
   m_Name: HitBoxes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,6 +56,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &203533640950050784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968566139227843089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6e2556e8ff5f694f895db40eea1ee59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info:
+    type: 0
+    value: 1
+--- !u!114 &8124040317906855820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968566139227843089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 710bb7840622eae42b581c9d3f768e64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5529219558827829663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968566139227843089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 874a62f2ff09de94aaf360eaf07c669d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4037759780951546634
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,6 +141,7 @@ GameObject:
   - component: {fileID: 949159481475734879}
   - component: {fileID: 4758659522263951959}
   - component: {fileID: 7485275291451863491}
+  - component: {fileID: 8117307608233947828}
   m_Layer: 0
   m_Name: Demon
   m_TagString: Untagged
@@ -174,6 +217,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 4286851995561681639, guid: d6133f22784424547a3c21583967d47e,
     type: 3}
   projectileSpawnPoint: {fileID: 6589867424429621057}
+  meleeWeapon: {fileID: 5089833810757556919}
 --- !u!111 &7485275291451863491
 Animation:
   m_ObjectHideFlags: 0
@@ -191,6 +235,21 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &8117307608233947828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4550218679438896203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd60c87d0087b96448805a916a21a9a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthData:
+    minHealth: 0
+    maxHealth: 0
 --- !u!1 &5089833810757556919
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,6 +264,7 @@ GameObject:
   - component: {fileID: 4663559326811608511}
   - component: {fileID: 2823623089070526677}
   - component: {fileID: 4740743860776765895}
+  - component: {fileID: 3456850338481443224}
   m_Layer: 7
   m_Name: Club
   m_TagString: Untagged
@@ -325,6 +385,18 @@ MonoBehaviour:
   info:
     type: 1
     value: 2
+--- !u!114 &3456850338481443224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5089833810757556919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e869714d13ba0f747ad98604097b187d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6589867424429621057
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,7 +521,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8152058528562646415}
   - component: {fileID: 5589224259867047962}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}

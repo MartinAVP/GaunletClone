@@ -12,6 +12,8 @@ public class PlayClip : MonoBehaviour, IEnemyBehaviorInterface
     protected bool isPlaying = false;
     public bool IsPlaying { get { return isPlaying; } }
 
+    protected float elapsedAnimTime = 0;
+
     protected void Awake()
     {
         if(animation == null)
@@ -47,7 +49,7 @@ public class PlayClip : MonoBehaviour, IEnemyBehaviorInterface
 
     public void Execute(IEnemyInterface enemy, UnityAction onComplete)
     {
-        Debug.Log(name + " execute");
+        //Debug.Log(name + " execute");
         this.onComplete = onComplete;
         animation.clip = clip;
         enemy.Rigidbody.velocity = Vector3.zero;    
@@ -66,7 +68,13 @@ public class PlayClip : MonoBehaviour, IEnemyBehaviorInterface
 
     public IEnumerator AnimationTimer()
     {
-        yield return new WaitForSeconds(clip.averageDuration);
+        elapsedAnimTime = 0;
+        while(elapsedAnimTime < clip.averageDuration)
+        {
+            elapsedAnimTime += Time.deltaTime;
+            yield return null;
+        }
+
         OnComplete();
     }
 
@@ -74,5 +82,13 @@ public class PlayClip : MonoBehaviour, IEnemyBehaviorInterface
     {
         isPlaying = false;
         onComplete?.Invoke();
+    }
+
+    protected void OnDisable()
+    {
+        isPlaying = false;
+        animation.Stop();
+        animation.Rewind();
+        StopAllCoroutines();
     }
 }

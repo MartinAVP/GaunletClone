@@ -16,6 +16,9 @@ public class Grunt : EnemyBase
 
     [SerializeField] protected AnimationClip atttackAnimation;
 
+    [SerializeField] protected GameObject meleeWeapon;
+    protected bool meleeWeaponDefaultActive = false;
+
     protected PlayClip attackBehavior;
     protected MoveTowardsPlayer moveTowardsPlayer;
 
@@ -29,13 +32,23 @@ public class Grunt : EnemyBase
         moveTowardsPlayer = gameObject.AddComponent<MoveTowardsPlayer>();
         moveTowardsPlayer.PlayerDetectionRadius = playerDetectionRadius;
         moveTowardsPlayer.ObstacleDetectionRadius = obstacleDetectionRadius;
+
+        meleeWeaponDefaultActive = meleeWeapon.activeInHierarchy;
+
+        HealthComponent health = GetComponent<HealthComponent>();
+        if (health != null)
+        {
+            health.onHealthDepleted += Kill;
+        }
     }
 
     protected override void OnEnable()
     {
         base.OnEnable();
 
-        PickBehavior();
+        meleeWeapon.SetActive(meleeWeaponDefaultActive);
+
+        CurrBehavior = moveTowardsPlayer;
         StartBehavior();
     }
 

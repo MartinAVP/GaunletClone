@@ -131,6 +131,7 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
     private void OnCollisionStay(Collision collision)
     {
         if (enemy.CurrBehavior != this) return;
+        if (collision.gameObject.layer == LayerMask.NameToLayer("CharacterCollision")) return;
 
         // Slide along surface
         Vector3 posToTarget = (collision.GetContact(0).point - transform.position).normalized;
@@ -139,5 +140,11 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
         // Rotate raw input slightly to avoid a cross product with zero length
         Vector3 cross = Vector3.Cross(collision.GetContact(0).normal, Quaternion.AngleAxis(1, transform.up) * rawInput).normalized;
         enemy.Rigidbody.velocity = Vector3.Cross(cross, collision.GetContact(0).normal).normalized * speed;
+    }
+
+    protected void OnDisable()
+    {
+        StopAllCoroutines();
+        fixDirection = false;
     }
 }

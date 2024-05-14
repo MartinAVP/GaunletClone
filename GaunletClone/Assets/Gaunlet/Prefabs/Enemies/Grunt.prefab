@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 544111859780485316}
   - component: {fileID: 1432735301630871273}
   - component: {fileID: 3470007151887694500}
+  - component: {fileID: 4806806557556706321}
   m_Layer: 7
   m_Name: Club
   m_TagString: Untagged
@@ -134,6 +135,18 @@ MonoBehaviour:
   info:
     type: 1
     value: 2
+--- !u!114 &4806806557556706321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4569576677196240914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e869714d13ba0f747ad98604097b187d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5580698104520968755
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,8 +459,9 @@ MonoBehaviour:
   playerDetectionRadius: 10
   obstacleDetectionRadius: 4
   attackDistance: 1.5
-  mesh: {fileID: 6390948288617091989}
+  mesh: {fileID: 4569576677196240914}
   atttackAnimation: {fileID: 7400000, guid: 26ff4d9867bda674ab8656bacad4729e, type: 2}
+  meleeWeapon: {fileID: 0}
 --- !u!114 &7794798885294103877
 MonoBehaviour:
   m_ObjectHideFlags: 0
