@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   depth: 10
   stackCap: 10
-  minInterval: 5
-  maxInterval: 8
+  minInterval: 10
+  maxInterval: 12
   enemyPrefab: {fileID: 2757501857810540499, guid: 4ff182aed5786004d8e36385fa36e234,
     type: 3}
