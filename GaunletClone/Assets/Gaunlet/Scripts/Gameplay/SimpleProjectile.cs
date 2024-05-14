@@ -8,7 +8,7 @@ public class SimpleProjectile : MonoBehaviour
 
     protected Rigidbody rb;
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         rb = gameObject.AddComponent<Rigidbody>();
         rb.useGravity = false;
