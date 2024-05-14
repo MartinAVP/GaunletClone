@@ -293,6 +293,14 @@ public class PlayerManager : MonoBehaviour
         updateHealth?.Invoke(playerData[playerToGive].player, playerData[playerToGive].player.health);
     }
 
+    public void SetHealthToPlayer(playerType type, int amount)
+    {
+        int playerToGive = FindListLocationBasedOnType(type);
+        playerData[playerToGive].player.health = amount;
+
+        updateHealth?.Invoke(playerData[playerToGive].player, playerData[playerToGive].player.health);
+    }
+
     // Internal Methods
     private Players FindPlayerBasedOnType(playerType type)
     {

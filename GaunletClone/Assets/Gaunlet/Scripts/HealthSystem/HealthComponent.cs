@@ -21,6 +21,9 @@ public class HealthComponent : MonoBehaviour
     [Tooltip("Called anytime the health component receives damage.")]
     public OnTakeDamage onTakeDamage;
 
+    public float CurrentHealth { get { return healthData.CurHealth; } }
+    public float MaxHealth { get { return healthData.maxHealth; } }
+
     protected void OnEnable()
     {
         // Reset health
