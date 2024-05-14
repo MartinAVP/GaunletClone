@@ -31,7 +31,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         //Debug.Log("Called");
         PlayerManager.Instance.SetInGameObject(this.transform.parent.gameObject, this.transform.parent.GetComponent<playerTypeHolder>().type);
-        StartCoroutine(SetDelay());
+        //StartCoroutine(SetDelay());
     }
 
     private IEnumerator SetDelay()
@@ -42,5 +42,11 @@ public class PlayerInputHandler : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         playerController.OnMove(context);
+    }
+
+    public void OnShoot(InputAction.CallbackContext context)
+    {
+        Debug.Log(name + " shoot");
+        playerController.OnShoot(context);
     }
 }

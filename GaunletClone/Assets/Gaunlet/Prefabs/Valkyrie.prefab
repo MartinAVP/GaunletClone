@@ -428,6 +428,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4023106901328126335}
   - {fileID: 6559805228966041430}
   - {fileID: 3344951334524559404}
   - {fileID: 6851871734647121270}
@@ -459,6 +460,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 7
+  projectileSpawner: {fileID: 4023106901328126335}
+  projectilePrefab: {fileID: 4286851995561681639, guid: 5c772944bec23a44b968e0f2e5e5ddaa,
+    type: 3}
 --- !u!114 &798397124135371341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,3 +543,34 @@ MonoBehaviour:
   healthData:
     minHealth: 0
     maxHealth: 600
+--- !u!1 &7400514275032357704
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4023106901328126335}
+  m_Layer: 0
+  m_Name: ProjectileSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4023106901328126335
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7400514275032357704}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.835}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2328341845273263816}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

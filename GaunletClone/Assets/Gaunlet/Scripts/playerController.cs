@@ -11,8 +11,11 @@ public class PlayerController : MonoBehaviour
     private Vector3 playerVelocity;
 /*    private bool groundedPlayer;*/
     [SerializeField] private float playerSpeed = 2.0f;
-/*    private float jumpHeight = 1.0f;
-    private float gravityValue = -9.81f;*/
+    /*    private float jumpHeight = 1.0f;
+        private float gravityValue = -9.81f;*/
+
+    public Transform projectileSpawner;
+    public GameObject projectilePrefab;
 
     private Vector3 move;
 
@@ -52,5 +55,10 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 movement = context.ReadValue<Vector2>();
         move = new Vector3(movement.x, 0, movement.y);
+    }
+
+    public void OnShoot(InputAction.CallbackContext context)
+    {
+        Instantiate(projectilePrefab, projectileSpawner.position, transform.rotation);
     }
 }
