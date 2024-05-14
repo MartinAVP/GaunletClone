@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 //using static GameManager;
 
 public class PlayerManager : MonoBehaviour
@@ -58,6 +59,7 @@ public class PlayerManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(this.gameObject);
         }
         else if (Instance != this)
         {
@@ -126,6 +128,7 @@ public class PlayerManager : MonoBehaviour
             else
             {
                 Debug.Log("Game Quit");
+                SceneManager.LoadScene(0);
             }
 
         }

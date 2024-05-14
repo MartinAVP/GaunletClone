@@ -42,6 +42,10 @@ public class PlayerEvents : MonoBehaviour
                 canInteract = false;
                 StartCoroutine(interactDelay());
             }
+            if (other.tag == "Ending")
+            {
+                LevelManager.Instance.switchScene();
+            }
             if (other.tag == "Treasure")
             {
                 Destroy(other.gameObject);
