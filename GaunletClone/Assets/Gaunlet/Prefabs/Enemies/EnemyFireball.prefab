@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 4346634702280844100}
   - component: {fileID: 4748200193293557300}
   m_Layer: 0
-  m_Name: DemonProjectile
+  m_Name: EnemyFireball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
