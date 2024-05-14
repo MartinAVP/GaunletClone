@@ -162,7 +162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthData:
     minHealth: 0
-    maxHealth: 0
+    maxHealth: 1
 --- !u!54 &7668833657988504056
 Rigidbody:
   m_ObjectHideFlags: 0

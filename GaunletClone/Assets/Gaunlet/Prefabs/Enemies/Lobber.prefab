@@ -45,7 +45,6 @@ GameObject:
   - component: {fileID: 621819207963809847}
   - component: {fileID: 1686324437409468400}
   - component: {fileID: 4544495527150145583}
-  - component: {fileID: 563489795911279910}
   m_Layer: 7
   m_Name: HitBoxes
   m_TagString: Untagged
@@ -113,21 +112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 874a62f2ff09de94aaf360eaf07c669d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &563489795911279910
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 911358048304571071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6e2556e8ff5f694f895db40eea1ee59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  info:
-    type: 0
-    value: 1
 --- !u!1 &1970348056857746150
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,6 +124,7 @@ GameObject:
   - component: {fileID: 4169831705537822240}
   - component: {fileID: 5930682935148750384}
   - component: {fileID: 1533803926595321367}
+  - component: {fileID: 8303983976430263200}
   m_Layer: 0
   m_Name: Lobber
   m_TagString: Untagged
@@ -190,7 +175,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!114 &5930682935148750384
 MonoBehaviour:
@@ -228,7 +213,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthData:
     minHealth: 0
-    maxHealth: 0
+    maxHealth: 5
+--- !u!114 &8303983976430263200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970348056857746150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6e2556e8ff5f694f895db40eea1ee59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info:
+    type: 0
+    value: 1
 --- !u!1 &2485355440847592949
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,7 +287,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.92045, y: 0.92045, z: 0.92045}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8217302174497320562}
