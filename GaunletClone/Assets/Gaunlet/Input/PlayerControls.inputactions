@@ -81,17 +81,6 @@
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "ArrowKeys",
-                    "id": "7b2948e2-02cf-43ab-851e-f8df30792a50",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": true,
-                    "isPartOfComposite": false
                 }
             ]
         }

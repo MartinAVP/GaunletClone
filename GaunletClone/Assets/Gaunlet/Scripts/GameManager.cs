@@ -6,7 +6,6 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
-
     public GameObject[] spawnPoints;
     public List<PlayerInput> playerList = new List<PlayerInput>();
 
@@ -19,6 +18,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]private InputAction joinAction;
     [SerializeField]private InputAction leaveAction;
+
+    // Delegates
+    public static event Action<PlayerInput> onPlayerJoin;
+    public static event Action<PlayerInput> onPlayerLeft;
 
     private void Awake()
     {
@@ -64,11 +67,19 @@ public class GameManager : MonoBehaviour
         {
             PlayerJoinedGame(playerInput);
         }
+
+        // Call Delegate
+        onPlayerJoin?.Invoke(playerInput);
+
+        // Note: ? Works as "if not null".
     }
 
     void OnPlayerLeft(PlayerInput playerInput)
     {
         Debug.Log("BYE!");
+
+        // Call Delegate
+        onPlayerLeft?.Invoke(playerInput);
     }
 
     void JoinAction(InputAction.CallbackContext context)
@@ -110,12 +121,5 @@ public class GameManager : MonoBehaviour
         }
 
         Destroy(playerInput.transform.parent.gameObject);
-    }
-
-    public struct PlayerData
-    {
-        PlayerInput input;
-        Players player;
-        GameObject inGamePlayer;
     }
 }

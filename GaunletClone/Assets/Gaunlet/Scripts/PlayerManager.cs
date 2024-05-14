@@ -1,77 +1,108 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.LowLevel;
 
 public class PlayerManager : MonoBehaviour
 {
-    public GameObject[] spawnPoints;
-    public List<PlayerInput> playerList = new List<PlayerInput>();
+    //Instances
+    public static PlayerManager Instance = null;
 
-    [SerializeField]public InputAction joinAction;
-    [SerializeField] public InputAction leaveAction;
+    public List<PlayerData> playerData = new List<PlayerData>();
+    [SerializeField]private List<JoinOrder> playerTypeJoinOrder;
 
-    //Singleton
-    public static PlayerManager instance = null;
-
-    public event System.Action<PlayerInput> playerJoinedGame;
-    public event System.Action<PlayerInput> playerLeftGame;
-
-/*    public UnityEvent events;
-    public void onEventTrigger()
+    private void OnEnable()
     {
-        events.Invoke();
-    }*/
+        GameManager.onPlayerJoin += PlayerJoin;
+        GameManager.onPlayerLeft += PlayerLeft;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.onPlayerJoin -= PlayerJoin;
+        GameManager.onPlayerLeft -= PlayerLeft;
+    }
+
 
     private void Awake()
     {
-        if(instance == null)
+        // Singleton
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
-        else if(instance != null)
+        else if (Instance != this)
         {
             Destroy(gameObject);
         }
-
-        spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
-
-        joinAction.Enable();
-        joinAction.performed += context => JoinAction(context);
-
-        leaveAction.Enable();
-        joinAction.performed += context => LeaveAction(context);
     }
-
     private void Start()
     {
-        PlayerInputManager.instance.JoinPlayer(0, -1, null);
+        //playerTypeJoinOrder = new Players[4];
     }
 
-    void OnPlayerJoined(PlayerInput playerInput)
+    public GameObject GetPlayerPrefabOfLastJoin()
     {
-        playerList.Add(playerInput);
-        if(playerJoinedGame != null)
+        return playerData[playerData.Count].player.prefab;
+    }
+
+    public void PlayerJoin(PlayerInput input)
+    {
+        for (int i = 0; i < playerTypeJoinOrder.Count; i++)
         {
-            playerJoinedGame(playerInput);
+            if (playerTypeJoinOrder[i].used == false)
+            {
+                // Add Player
+                playerData.Add(new PlayerData(input, playerTypeJoinOrder[playerData.Count].player, null));
+                playerTypeJoinOrder[i].used = true;
+
+                return;
+            }
         }
-        Debug.Log("Player Join the game - hello!");
     }
 
-    void OnPlayerLeft(PlayerInput playerInput)
+    public void PlayerLeft(PlayerInput input)
     {
+        // Find the Player by Input
+        for (int i = 0; i < playerData.Count; i++)
+        {
+            if (playerData[i].input == input)
+            {
+                // Make the PlayerType Slot Available
+                for(int j = 0; j < playerTypeJoinOrder.Count; j++)
+                {
+                    if (playerTypeJoinOrder[j].player == playerData[i].player)
+                    {
+                        playerTypeJoinOrder[j].used = false;
+                    }
+                }
 
+                // Remove The Player
+                playerData.RemoveAt(i);
+                return;
+            }
+        }
     }
 
-    void JoinAction(InputAction.CallbackContext context)
+    [System.Serializable]
+    public class JoinOrder
     {
-        PlayerInputManager.instance.JoinPlayerFromActionIfNotAlreadyJoined(context);
+        [HideInInspector]public bool used;
+        public Players player;
     }
-    void LeaveAction(InputAction.CallbackContext context)
-    {
 
+    [System.Serializable]
+    public struct PlayerData
+    {
+        public PlayerInput input;
+        public Players player;
+        public GameObject inGamePlayer;
+
+        public PlayerData(PlayerInput input, Players player, GameObject inGamePlayer)
+        {
+            this.input = input;
+            this.player = player;
+            this.inGamePlayer = inGamePlayer;
+        }
     }
 }

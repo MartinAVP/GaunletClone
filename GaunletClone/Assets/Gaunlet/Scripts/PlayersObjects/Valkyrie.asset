@@ -19,5 +19,5 @@ MonoBehaviour:
   score: 0
   type: 1
   inventory: []
-  prefab: {fileID: 0}
+  prefab: {fileID: 3643702916142829625, guid: 628f7e72c5780424997ee0b859c36b7b, type: 3}
   UIColor: {r: 0.28627455, g: 0.36383492, b: 1, a: 1}
