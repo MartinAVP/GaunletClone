@@ -14,7 +14,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if(playerPrefab != null)
         {
-            Debug.Log("Called");
+            //Debug.Log("Called");
             //GameManager.Instance.setPlayerObject(this.gameObject);
 
             //playerPrefab = PlayerManager.Instance.playerData[PlayerManager.Instance.playerData.Count].player.prefab;
@@ -29,7 +29,14 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("Called");
         PlayerManager.Instance.SetInGameObject(this.transform.parent.gameObject, this.transform.parent.GetComponent<playerTypeHolder>().type);
+        StartCoroutine(SetDelay());
+    }
+
+    private IEnumerator SetDelay()
+    {
+        yield return new WaitForSeconds(.5f);
     }
 
     public void OnMove(InputAction.CallbackContext context)

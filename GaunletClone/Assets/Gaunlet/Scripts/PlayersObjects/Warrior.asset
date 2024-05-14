@@ -17,6 +17,8 @@ MonoBehaviour:
   damage: 10
   health: 5
   score: 0
+  keys: 0
+  potions: 0
   type: 0
   inventory: []
   prefab: {fileID: 3643702916142829625, guid: 05384887c3305ba4f924109156410d1a, type: 3}

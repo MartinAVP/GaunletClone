@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
     private Transform warningQuitMessage;
 
     // PlayerData
-    private List<UICardData> playerData;
+    [SerializeField]private List<UICardData> playerData;
     //private UICardData[] playerData;
 
 /*    // Test Variables
@@ -54,6 +54,12 @@ public class UIManager : MonoBehaviour
 
         PlayerManager.onLastPlayerTryQuit += EnablePlayerQuitWarnningMessage;
         PlayerManager.onLastPlayerTryQuitAbort += DisablePlayerQuitWarnningMessage;
+
+        PlayerManager.addKey += AddKeys;
+        PlayerManager.removeKey += RemoveKeys;
+
+        PlayerManager.addPotion += AddPotion;
+        PlayerManager.removePotion += RemovePotion;
     }
 
     private void OnDisable()
@@ -63,6 +69,12 @@ public class UIManager : MonoBehaviour
 
         PlayerManager.onLastPlayerTryQuit -= EnablePlayerQuitWarnningMessage;
         PlayerManager.onLastPlayerTryQuitAbort -= DisablePlayerQuitWarnningMessage;
+
+        PlayerManager.addKey -= AddKeys;
+        PlayerManager.removeKey -= RemoveKeys;
+
+        PlayerManager.addPotion -= AddPotion;
+        PlayerManager.removePotion -= RemovePotion;
     }
 
     /*    // OnGUI Test Buttons
@@ -164,6 +176,9 @@ public class UIManager : MonoBehaviour
 
                 playerData[i].keysContent.gameObject.SetActive(true);
                 playerData[i].potionContent.gameObject.SetActive(true);
+
+                playerData[i].keys = new List<GameObject>();
+                playerData[i].potions = new List<GameObject>();
 
                 SetUIColor(playerData[i], player);
                 break;
@@ -272,11 +287,13 @@ public class UIManager : MonoBehaviour
         int id = FindPlayer(player);
         if (id == -1) { Debug.LogError("Couldn't find player"); return; }
 
-        GameObject tmp = Instantiate(keyPrefab);
+        GameObject tmp = Instantiate(keyPrefab, playerData[id].keysContent.GetChild(0).GetChild(0).transform);
         //tmp.transform.parent = playerData[id].keysContent.GetChild(0).GetChild(0).transform;
         tmp.transform.SetParent(playerData[id].keysContent.GetChild(0).GetChild(0).transform);
         tmp.transform.localScale = Vector3.one;
-        playerData[id].keys.Add(tmp);
+
+        //Debug.Log(playerData[id].keys.Count);
+        playerData[id].keys.Add(tmp.gameObject);
     }
     public void RemovePotion(Players player)
     {
@@ -428,6 +445,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    [System.Serializable]
     public class UICardData
     {
         public int id;

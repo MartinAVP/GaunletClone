@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 public class PlayerManager : MonoBehaviour
 {
     public GameObject[] spawnPoints;
-    public List<PlayerInput> playerList = new List<PlayerInput>();
+    //public List<PlayerInput> playerList = new List<PlayerInput>();
 
     private bool lastPlayerPreQuit = false;
 
@@ -29,11 +29,22 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private List<JoinOrder> playerTypeJoinOrder;
 
     // Delegates
+
+    // Player Joined / Left
     public static event Action<Players> onPlayerJoin;
     public static event Action<Players> onPlayerLeft;
 
+    // Player Attempt to Quit
     public static event Action onLastPlayerTryQuit;
     public static event Action onLastPlayerTryQuitAbort;
+
+    // Add / Remove Keys to Player
+    public static event Action<Players> addKey;
+    public static event Action<Players> removeKey;
+
+    // Add / Remove Potion to Player
+    public static event Action<Players> addPotion;
+    public static event Action<Players> removePotion;
 
     private void Awake()
     {
@@ -58,39 +69,28 @@ public class PlayerManager : MonoBehaviour
         leaveAction.performed += context => LeaveAction(context);
     }
 
+    private void OnDestroy()
+    {
+        for (int i = 0; i < playerData.Count; i++)
+        {
+            playerData[i].player.score = 0;
+            playerData[i].player.keys = 0;
+            playerData[i].player.potions = 0;
+        }
+    }
+
+    /// ==================================================
+    ///             Player Related Methods
+    /// ==================================================
+
     // Executes when a player Join action is triggered.
     // Does not check if the player succesfully joined.
     void JoinAction(InputAction.CallbackContext context)
     {
         PlayerInputManager.instance.JoinPlayerFromActionIfNotAlreadyJoined(context);
-        //PlayerJoin();
     }
     void LeaveAction(InputAction.CallbackContext context)
     {
-/*        // If the playerlist is bigger than one
-        if (playerData.Count > 1)
-        {
-            // get a reference for each player in the playerlist
-            foreach (var player in playerList)
-            {
-                // get the devices registered to the player
-                foreach (var device in player.devices)
-                {
-                    // Check if the device is with the one that was caused the action to trigger
-                    if (device != null && context.control.device == device)
-                    {
-                        UnregisterPlayer(player);
-                        return;
-                    }
-                }
-            }
-        }
-        else
-        {
-            // Last Player
-            Debug.Log("This is the last player trying to leave");
-        }*/
-
         if(playerData.Count > 1)
         {
             for (int i = 0; i < playerData.Count; i++)
@@ -179,15 +179,16 @@ public class PlayerManager : MonoBehaviour
 
     // Executes when a player Succesfully joins the game.
     // Receives from the Player Input Manager.
-    public GameObject lastSpawnedPrefab;
-
+    [HideInInspector] public GameObject lastSpawnedPrefab;
     public void SetInGameObject(GameObject gameObject, playerType player)
     {
         for (int i = 0; i < playerData.Count; i++)
         {
             if (playerData[i].player.type == player)
             {
+                Debug.Log("Player Found");
                 playerData[i].inGamePlayer = gameObject;
+                return;
             }
         }
     }
@@ -195,7 +196,7 @@ public class PlayerManager : MonoBehaviour
     void OnPlayerJoined(PlayerInput playerInput)
     {
         Debug.Log("Player joined the game");
-        playerList.Add(playerInput);
+        //playerList.Add(playerInput);
         for (int i = 0; i < playerTypeJoinOrder.Count; i++)
         {
             if (playerTypeJoinOrder[i].used == false)
@@ -214,13 +215,75 @@ public class PlayerManager : MonoBehaviour
             PlayerJoinedGame(playerInput);
         }
     }
-
     void OnPlayerLeft(PlayerInput playerInput)
     {
-        Debug.Log("BYE!");
+        Debug.Log("Player Left the Game!");
     }
 
 
+    /// ==================================================
+    ///           Internal / External Methods
+    /// ==================================================
+    // External Methods
+    public void AddKeyToPlayer(playerType type)
+    {
+        int playerToGive = FindListLocationBasedOnType(type);
+        playerData[playerToGive].player.keys++;
+        addKey?.Invoke(playerData[playerToGive].player);
+    }
+    public void RemoveKeyToPlayer(playerType type)
+    {
+        int playerToGive = FindListLocationBasedOnType(type);
+        playerData[playerToGive].player.keys--;
+        removeKey?.Invoke(playerData[playerToGive].player);
+    }
+
+    public void AddPotionToPlayer(playerType type)
+    {
+        int playerToGive = FindListLocationBasedOnType(type);
+        playerData[playerToGive].player.potions++;
+        addPotion?.Invoke(playerData[playerToGive].player);
+    }
+    public void RemovePotionToPlayer(playerType type)
+    {
+        int playerToGive = FindListLocationBasedOnType(type);
+        playerData[playerToGive].player.potions--;
+        removePotion?.Invoke(playerData[playerToGive].player);
+    }
+    public int GetPlayerKeys(playerType type)
+    {
+        int playerToGive = FindListLocationBasedOnType(type);
+        return playerData[playerToGive].player.keys;
+    }
+
+    // Internal Methods
+    private Players FindPlayerBasedOnType(playerType type)
+    {
+        for (int i = 0; i < playerData.Count; i++)
+        {
+            if (playerData[i].player.type == type)
+            {
+                return playerData[i].player;
+            }
+        }
+        return null;
+    }
+    private int FindListLocationBasedOnType(playerType type)
+    {
+        for (int i = 0; i < playerData.Count; i++)
+        {
+            if (playerData[i].player.type == type)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
+    /// ==================================================
+    ///            Internal Classes / Structs
+    /// ==================================================
     // Join Order Class
     [System.Serializable]
     public class JoinOrder
