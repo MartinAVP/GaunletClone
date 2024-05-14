@@ -69,7 +69,6 @@ public class Lobber : EnemyBase
         }
         else
         {
-            // flee behavior would go here
             CurrBehavior = evasionBehavior;
         }
 

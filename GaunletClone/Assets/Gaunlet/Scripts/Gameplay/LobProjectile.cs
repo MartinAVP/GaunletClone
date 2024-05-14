@@ -21,7 +21,7 @@ public class LobProjectile : MonoBehaviour
         health = GetComponent<HealthComponent>();
         health.onHealthDepleted += Kill;
 
-        Launch(Vector3.zero);
+        //Launch(Vector3.zero);
     }
 
     public void Launch(Vector3 targetPos)
@@ -47,8 +47,10 @@ public class LobProjectile : MonoBehaviour
         while(distTraveled < distance)
         {
             Vector3 flatDelta = rb.velocity * Time.fixedDeltaTime;
-            flatDelta.y = baseHeight;
+            flatDelta.y = 0;
             distTraveled += flatDelta.magnitude;
+
+            Debug.Log(name + " dist traveled: " + distTraveled);
 
             float alpha = distTraveled / distance;
 

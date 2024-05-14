@@ -130,7 +130,7 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
 
     private void OnCollisionStay(Collision collision)
     {
-        if (enemy.CurrBehavior != this) return;
+        if (enemy == null || enemy.CurrBehavior != this) return;
         if (collision.gameObject.layer == LayerMask.NameToLayer("CharacterCollision")) return;
 
         // Slide along surface

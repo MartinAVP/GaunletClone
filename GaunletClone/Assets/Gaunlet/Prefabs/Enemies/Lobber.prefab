@@ -204,9 +204,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c37fed0fb4d7aa9418685af344bfdde8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerDetectionRadius: 10
+  playerDetectionRadius: 15
   obstacleDetectionRadius: 4
-  fleeDistance: 4
+  fleeDistance: 6
   minProjectileInterval: 2
   maxProjectileInterval: 3
   mesh: {fileID: 876340562636778138}
