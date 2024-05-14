@@ -63,7 +63,7 @@ public class CameraController : MonoBehaviour
 
     private IEnumerator CameraStartDelay()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
         playerOne = PlayerManager.Instance.playerData[0].inGamePlayer.gameObject.transform;
         transform.position = playerOne.transform.position;
     }
