@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35c6811bf0fd6ca48bcb72be8434a05e, type: 3}
-  m_Name: LobberSpawnerData
+  m_Name: GruntSpawnerData
   m_EditorClassIdentifier: 
   depth: 10
   stackCap: 10
   minInterval: 10
   maxInterval: 12
-  enemyPrefab: {fileID: 5930682935148750384, guid: ff09fb5c30a1080468219d53e8bfda66,
+  enemyPrefab: {fileID: 2757501857810540499, guid: 4ff182aed5786004d8e36385fa36e234,
     type: 3}

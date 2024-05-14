@@ -69,6 +69,7 @@ public class EnemyBase : MonoBehaviour, IEnemyInterface
     /// </summary>
     protected virtual void Kill()
     {
-        Pool.Release(this);
+        if(gameObject.activeSelf)
+            Pool.Release(this);
     }
 }

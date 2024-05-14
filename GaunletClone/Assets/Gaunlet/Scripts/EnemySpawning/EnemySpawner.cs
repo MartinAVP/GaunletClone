@@ -6,6 +6,30 @@ public class EnemySpawner : EnemyPool
 {
     public Transform spawnPoint;
 
+    protected void Awake()
+    {
+        HealthComponent health = GetComponent<HealthComponent>();
+        if(health != null )
+        {
+            health.onHealthDepleted += Kill;
+        }
+    }
+
+    protected void OnEnable()
+    {
+        StartCoroutine(SpawnRandomInterval());
+    }
+
+    protected  IEnumerator SpawnRandomInterval()
+    {
+        while (true)
+        {
+            float spawnInterval = Random.Range(spawnData.MinInterval, spawnData.MaxInterval);
+            yield return new WaitForSeconds(spawnInterval);
+            Spawn();
+        }
+    }
+
     /// <summary>
     /// Place a fresh enemy at spawn point.
     /// </summary>
@@ -19,13 +43,9 @@ public class EnemySpawner : EnemyPool
         return newEnemy;
     }
 
-    /** TESTONLY **/
-    public void OnGUI()
+    protected void Kill()
     {
-        if(GUILayout.Button("Spawn Enemy")){
-            Spawn();
-        }
+        StopAllCoroutines();
+        gameObject.SetActive(false);
     }
-
-    /** ENDTEST **/
 }
