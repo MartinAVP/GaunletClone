@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,9 +17,11 @@ public class UIManager : MonoBehaviour
     // UI Variables
     private Transform levelNumber;
     private Transform playerCards;
+    private Transform warningQuitMessage;
 
     // PlayerData
-    public List<UICardData> playerData;
+    private List<UICardData> playerData;
+    //private UICardData[] playerData;
 
 /*    // Test Variables
     public Players warrior;
@@ -31,96 +36,117 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
+        playerData = new List<UICardData>() { null, null, null, null };
         AssetFinder();
+
+        //Debug.Log(playerData.Count);
     }
+
     void Start()
     {
         InitPlayerCards();
     }
 
-/*    // OnGUI Test Buttons
-       private void OnGUI()
-        {
-            if (GUILayout.Button("Add Warrior"))
-            {
-                //spawnPlayer(warrior);
-                AddPlayer(warrior);
-            }
-            if (GUILayout.Button("Add Valkyrie"))
-            {
-                //spawnPlayer(warrior);
-                AddPlayer(valkyrie);
-            }
-            if (GUILayout.Button("Add Elf"))
-            {
-                //spawnPlayer(warrior);
-                AddPlayer(elf);
-            }
-            if (GUILayout.Button("Add Wizard"))
-            {
-                //spawnPlayer(warrior);
-                AddPlayer(wizard);
-            }
-            if (GUILayout.Button("Remove Warrior"))
-            {
-                //spawnPlayer(warrior);
-                RemovePlayer(warrior);
-            }
-            if (GUILayout.Button("Remove Valkyrie"))
-            {
-                //spawnPlayer(warrior);
-                RemovePlayer(valkyrie);
-            }
-            if (GUILayout.Button("Remove Elf"))
-            {
-                //spawnPlayer(warrior);
-                RemovePlayer(elf);
-            }
-            if (GUILayout.Button("Remove Wizard"))
-            {
-                //spawnPlayer(warrior);
-                RemovePlayer(wizard);
-            }
+    private void OnEnable()
+    {
+        PlayerManager.onPlayerJoin += AddPlayer;
+        PlayerManager.onPlayerLeft += RemovePlayer;
 
-            if (GUILayout.Button("Add Potion"))
-            {
-                //spawnPlayer(warrior);
-                AddPotion(wizard);
-            }
-            if (GUILayout.Button("Remove Potion"))
-            {
-                //spawnPlayer(warrior);
-                RemovePotion(wizard);
-            }
+        PlayerManager.onLastPlayerTryQuit += EnablePlayerQuitWarnningMessage;
+        PlayerManager.onLastPlayerTryQuitAbort += DisablePlayerQuitWarnningMessage;
+    }
 
-            if (GUILayout.Button("Add Keys"))
+    private void OnDisable()
+    {
+        PlayerManager.onPlayerJoin -= AddPlayer;
+        PlayerManager.onPlayerLeft -= RemovePlayer;
+
+        PlayerManager.onLastPlayerTryQuit -= EnablePlayerQuitWarnningMessage;
+        PlayerManager.onLastPlayerTryQuitAbort -= DisablePlayerQuitWarnningMessage;
+    }
+
+    /*    // OnGUI Test Buttons
+           private void OnGUI()
             {
-                //spawnPlayer(warrior);
-                AddKeys(wizard);
+                if (GUILayout.Button("Add Warrior"))
+                {
+                    //spawnPlayer(warrior);
+                    AddPlayer(warrior);
+                }
+                if (GUILayout.Button("Add Valkyrie"))
+                {
+                    //spawnPlayer(warrior);
+                    AddPlayer(valkyrie);
+                }
+                if (GUILayout.Button("Add Elf"))
+                {
+                    //spawnPlayer(warrior);
+                    AddPlayer(elf);
+                }
+                if (GUILayout.Button("Add Wizard"))
+                {
+                    //spawnPlayer(warrior);
+                    AddPlayer(wizard);
+                }
+                if (GUILayout.Button("Remove Warrior"))
+                {
+                    //spawnPlayer(warrior);
+                    RemovePlayer(warrior);
+                }
+                if (GUILayout.Button("Remove Valkyrie"))
+                {
+                    //spawnPlayer(warrior);
+                    RemovePlayer(valkyrie);
+                }
+                if (GUILayout.Button("Remove Elf"))
+                {
+                    //spawnPlayer(warrior);
+                    RemovePlayer(elf);
+                }
+                if (GUILayout.Button("Remove Wizard"))
+                {
+                    //spawnPlayer(warrior);
+                    RemovePlayer(wizard);
+                }
+
+                if (GUILayout.Button("Add Potion"))
+                {
+                    //spawnPlayer(warrior);
+                    AddPotion(wizard);
+                }
+                if (GUILayout.Button("Remove Potion"))
+                {
+                    //spawnPlayer(warrior);
+                    RemovePotion(wizard);
+                }
+
+                if (GUILayout.Button("Add Keys"))
+                {
+                    //spawnPlayer(warrior);
+                    AddKeys(wizard);
+                }
+                if (GUILayout.Button("Remove Keys"))
+                {
+                    //spawnPlayer(warrior);
+                    RemoveKeys(wizard);
+                }
+                if (GUILayout.Button("Multiplier 0"))
+                {
+                    //spawnPlayer(warrior);
+                    changeMultiplier(wizard, 0);
+                }
+                if (GUILayout.Button("Multiplier 5"))
+                {
+                    //spawnPlayer(warrior);
+                    changeMultiplier(wizard, 5);
+                }
             }
-            if (GUILayout.Button("Remove Keys"))
-            {
-                //spawnPlayer(warrior);
-                RemoveKeys(wizard);
-            }
-            if (GUILayout.Button("Multiplier 0"))
-            {
-                //spawnPlayer(warrior);
-                changeMultiplier(wizard, 0);
-            }
-            if (GUILayout.Button("Multiplier 5"))
-            {
-                //spawnPlayer(warrior);
-                changeMultiplier(wizard, 5);
-            }
-        }
-    */
+        */
 
     // External Methods
     public void AddPlayer(Players player)
     {
         int spaceFound = -1;
-
         for (int i = 0; i < playerData.Count; i++)
         {
             if (playerData[i].player == null)
@@ -169,8 +195,11 @@ public class UIManager : MonoBehaviour
                 playerData[i].insertCoin.gameObject.SetActive(true);
 
                 // clear the keys and potions lists
-                playerData[i].keys.Clear();
-                playerData[i].potions.Clear();
+                if (playerData[i].keysContent.GetChild(0).GetChild(0).childCount > 0)
+                    playerData[i].keys.Clear();
+                if (playerData[i].potionContent.GetChild(0).GetChild(0).childCount > 0)
+                    playerData[i].potions.Clear();
+                //playerData[i].potions.Clear();
 
                 // Remove all the keys and potions on screen
                 RemoveAllChildren(playerData[i].keysContent.GetChild(0).GetChild(0));
@@ -283,6 +312,17 @@ public class UIManager : MonoBehaviour
         playerData[id].keys.RemoveAt(0);
     }
 
+    public void EnablePlayerQuitWarnningMessage()
+    {
+        warningQuitMessage.gameObject.SetActive(true);
+    }
+
+    public void DisablePlayerQuitWarnningMessage()
+    {
+        warningQuitMessage.gameObject.SetActive(false);
+    }
+
+
     // Internal Methods
     private void SetUIColor(UICardData data, Players player)
     {
@@ -337,20 +377,23 @@ public class UIManager : MonoBehaviour
                     // Find The Player Cards
                     if (panelContent.name == "PlayerList")
                         playerCards = panelContent.GetChild(0).GetChild(0);
+
+                    // Find Quit Warning
+                    if (panelContent.name == "ExitWarning")
+                        warningQuitMessage = panelContent;
                 }
             }
         }
     }
     private void InitPlayerCards()
     {
-        playerData = new List<UICardData>(4);
-
         //print(playerData[0].name.ToString());
         for (int i = 0; i < playerData.Count; i++)
         {
             //playerData[i].id = i;
-
+            Debug.Log(playerCards.childCount);
             playerData[i].card = playerCards.GetChild(i).transform;
+            playerData[i].id = i;
 
             foreach (Transform cardInfo in playerData[i].card)
             {
@@ -380,10 +423,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    //[System.Serializable]
     public class UICardData
     {
-        public int id = -1;
+        public int id;
         public Players player;
         public Transform card;
 
@@ -406,5 +448,28 @@ public class UIManager : MonoBehaviour
 
         public List<GameObject> keys;
         public List<GameObject> potions;
+
+        public UICardData(int id, Transform card, Transform name, Transform insertCoin, Transform multiplier, Transform health, Transform score, Transform healthTitle, Transform scoreTitle,
+            Transform keysContent, Transform potionContent, List<GameObject> keys, List<GameObject> potions)
+        {
+            this.id = id;
+            this.card = card;
+
+            this.name = name;
+            this.insertCoin = insertCoin;
+            this.multiplier = multiplier;
+
+            this.health = health;
+            this.score = score;
+
+            this.healthTitle = healthTitle;
+            this.scoreTitle = keysContent;
+
+            this.keysContent = keysContent;
+            this.potionContent = potionContent;
+
+            this.keys = keys;
+            this.potions = potions;
+        }
     }
 }
