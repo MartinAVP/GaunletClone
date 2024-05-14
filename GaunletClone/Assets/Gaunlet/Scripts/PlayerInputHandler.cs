@@ -17,11 +17,19 @@ public class PlayerInputHandler : MonoBehaviour
             Debug.Log("Called");
             //GameManager.Instance.setPlayerObject(this.gameObject);
 
+            //playerPrefab = PlayerManager.Instance.playerData[PlayerManager.Instance.playerData.Count].player.prefab;
+            playerPrefab = PlayerManager.Instance.lastSpawnedPrefab;
+
             playerController = GameObject.Instantiate(playerPrefab, PlayerManager.Instance.spawnPoints[0].transform.position, transform.rotation).GetComponent<PlayerController>();
             transform.parent = playerController.transform;
 
             transform.position = playerController.transform.position;
         }
+    }
+
+    private void Start()
+    {
+        PlayerManager.Instance.SetInGameObject(this.transform.parent.gameObject, this.transform.parent.GetComponent<playerTypeHolder>().type);
     }
 
     public void OnMove(InputAction.CallbackContext context)

@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        playerData = new List<UICardData>() { null, null, null, null };
+        playerData = new List<UICardData>();
         AssetFinder();
 
         //Debug.Log(playerData.Count);
@@ -146,6 +146,7 @@ public class UIManager : MonoBehaviour
     // External Methods
     public void AddPlayer(Players player)
     {
+        //Debug.Log(playerData.Count);
         int spaceFound = -1;
         for (int i = 0; i < playerData.Count; i++)
         {
@@ -316,7 +317,6 @@ public class UIManager : MonoBehaviour
     {
         warningQuitMessage.gameObject.SetActive(true);
     }
-
     public void DisablePlayerQuitWarnningMessage()
     {
         warningQuitMessage.gameObject.SetActive(false);
@@ -387,11 +387,16 @@ public class UIManager : MonoBehaviour
     }
     private void InitPlayerCards()
     {
+        for (int i = 0; i < 4; i++)
+        {
+            playerData.Add(new UICardData());
+        }
+
         //print(playerData[0].name.ToString());
         for (int i = 0; i < playerData.Count; i++)
         {
             //playerData[i].id = i;
-            Debug.Log(playerCards.childCount);
+            //Debug.Log(playerCards.childCount);
             playerData[i].card = playerCards.GetChild(i).transform;
             playerData[i].id = i;
 
@@ -449,7 +454,7 @@ public class UIManager : MonoBehaviour
         public List<GameObject> keys;
         public List<GameObject> potions;
 
-        public UICardData(int id, Transform card, Transform name, Transform insertCoin, Transform multiplier, Transform health, Transform score, Transform healthTitle, Transform scoreTitle,
+/*        public UICardData(int id, Transform card, Transform name, Transform insertCoin, Transform multiplier, Transform health, Transform score, Transform healthTitle, Transform scoreTitle,
             Transform keysContent, Transform potionContent, List<GameObject> keys, List<GameObject> potions)
         {
             this.id = id;
@@ -470,6 +475,6 @@ public class UIManager : MonoBehaviour
 
             this.keys = keys;
             this.potions = potions;
-        }
+        }*/
     }
 }

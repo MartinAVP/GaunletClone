@@ -179,6 +179,19 @@ public class PlayerManager : MonoBehaviour
 
     // Executes when a player Succesfully joins the game.
     // Receives from the Player Input Manager.
+    public GameObject lastSpawnedPrefab;
+
+    public void SetInGameObject(GameObject gameObject, playerType player)
+    {
+        for (int i = 0; i < playerData.Count; i++)
+        {
+            if (playerData[i].player.type == player)
+            {
+                playerData[i].inGamePlayer = gameObject;
+            }
+        }
+    }
+
     void OnPlayerJoined(PlayerInput playerInput)
     {
         Debug.Log("Player joined the game");
@@ -188,7 +201,7 @@ public class PlayerManager : MonoBehaviour
             if (playerTypeJoinOrder[i].used == false)
             {
                 playerData.Add(new PlayerData(playerInput, playerTypeJoinOrder[i].player, null));
-
+                lastSpawnedPrefab = playerTypeJoinOrder[i].player.prefab;
                 playerTypeJoinOrder[i].used = true;
 
                 onPlayerJoin?.Invoke(playerTypeJoinOrder[i].player);
