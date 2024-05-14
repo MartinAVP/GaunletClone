@@ -7,12 +7,22 @@ public class CameraController : MonoBehaviour
 {
     Transform playerOne;
 
+    private void OnEnable()
+    {
+        PlayerManager.onPlayerJoin += CameraStart;
+    }
+
+    private void OnDisable()
+    {
+        PlayerManager.onPlayerJoin -= CameraStart;
+    }
+
     public Vector3 offset;
     public float smoothSpeed = .2f;
 
     private void Start()
     {
-        StartCoroutine(CameraStartDelay());
+        //StartCoroutine(CameraStartDelay());
     }
 
     private void FixedUpdate()
@@ -53,8 +63,15 @@ public class CameraController : MonoBehaviour
 
     private IEnumerator CameraStartDelay()
     {
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(1f);
         playerOne = PlayerManager.Instance.playerData[0].inGamePlayer.gameObject.transform;
         transform.position = playerOne.transform.position;
+    }
+
+    public void CameraStart(Players player)
+    {
+        StartCoroutine(CameraStartDelay());
+        /*        playerOne = PlayerManager.Instance.playerData[0].inGamePlayer.gameObject.transform;
+                transform.position = playerOne.transform.position;*/
     }
 }
