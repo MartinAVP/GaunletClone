@@ -378,7 +378,6 @@ GameObject:
   - component: {fileID: 314842767715967418}
   - component: {fileID: 2894396211728578723}
   - component: {fileID: 2757501857810540499}
-  - component: {fileID: 7953716301914796572}
   - component: {fileID: 7794798885294103877}
   m_Layer: 0
   m_Name: Grunt
@@ -446,25 +445,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDetectionRadius: 10
   obstacleDetectionRadius: 4
-  attackDistance: 1
+  attackDistance: 1.5
   mesh: {fileID: 6390948288617091989}
-  atttackAnimation: {fileID: 7953716301914796572}
---- !u!111 &7953716301914796572
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8278046376440892637}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 26ff4d9867bda674ab8656bacad4729e, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 26ff4d9867bda674ab8656bacad4729e, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  atttackAnimation: {fileID: 7400000, guid: 26ff4d9867bda674ab8656bacad4729e, type: 2}
 --- !u!114 &7794798885294103877
 MonoBehaviour:
   m_ObjectHideFlags: 0

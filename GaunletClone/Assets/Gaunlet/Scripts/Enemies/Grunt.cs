@@ -14,7 +14,7 @@ public class Grunt : EnemyBase
 
     [SerializeField] protected GameObject mesh;
 
-    [SerializeField] protected Animation atttackAnimation;
+    [SerializeField] protected AnimationClip atttackAnimation;
 
     protected PlayClip attackBehavior;
     protected MoveTowardsPlayer moveTowardsPlayer;
@@ -35,41 +35,40 @@ public class Grunt : EnemyBase
     {
         base.OnEnable();
 
-        CurrBehavior = moveTowardsPlayer;
-        OnBehaviorComplete();
-
-        StartCoroutine(CheckDistanceToTarget());
+        PickBehavior();
+        StartBehavior();
     }
 
-    protected IEnumerator CheckDistanceToTarget()
+    protected void FixedUpdate()
     {
-        while(true)
+        if (rb.velocity.magnitude > 0)
         {
-            Vector3 pos = moveTowardsPlayer.Target;
-            float distance = Vector3.Distance(transform.position, pos);
-
-            //Debug.Log(name + " target " + pos + " dist " + distance);
-
-            if(distance < attackDistance &&
-                CurrBehavior != attackBehavior)
-            {
-                CurrBehavior.Cancel();
-                CurrBehavior = attackBehavior;
-                OnBehaviorComplete();
-            }
-            else if(distance > attackDistance &&
-                CurrBehavior != moveTowardsPlayer)
-            {
-                CurrBehavior = moveTowardsPlayer;
-            }
-
-            if(rb.velocity.magnitude > 0)
-            {
-                mesh.transform.LookAt(transform.position + rb.velocity);
-            }
-
-            yield return new WaitForSeconds(.1f);
+            mesh.transform.LookAt(transform.position + rb.velocity);
         }
+    }
+
+    protected void PickBehavior()
+    {
+        Vector3 pos = moveTowardsPlayer.Target;
+        float distance = Vector3.Distance(transform.position, pos);
+
+        //Debug.Log(name + " target " + pos + " dist " + distance);
+
+        if (distance < attackDistance)
+        {
+            CurrBehavior = attackBehavior;
+            rb.velocity = Vector3.zero;
+        }
+        else if (distance > attackDistance)
+        {
+            CurrBehavior = moveTowardsPlayer;
+        }
+    }
+
+    protected override void OnBehaviorComplete()
+    {
+        PickBehavior();
+        base.OnBehaviorComplete();
     }
 
 }

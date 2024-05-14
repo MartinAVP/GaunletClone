@@ -50,13 +50,18 @@ public class EnemyBase : MonoBehaviour, IEnemyInterface
         rb.velocity = Vector3.zero;
     }
 
+    protected virtual void StartBehavior()
+    {
+        currBehavior.Execute(this, OnBehaviorComplete);
+    }
+
     /// <summary>
     /// Functionality to run when current behvior completes. By default loops the current behavior.
     /// </summary>
     protected virtual void OnBehaviorComplete()
     {
         //Debug.Log(name + " on complete");
-        currBehavior.Execute(this, OnBehaviorComplete);
+        StartBehavior();
     }
 
     /// <summary>

@@ -19,6 +19,7 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
             if (seeking == null)
                 seeking = gameObject.AddComponent<TargetSeeking>();
             seeking.Radius = value;
+            sightDistance = value;
         }
     }
     [Tooltip("How far away this behvior will look for obstacles.")]
@@ -36,7 +37,6 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
     public Vector3 Target { 
         get 
         {
-            solver.Data.targets.Clear();
             return seeking.GetMostDesiredTarget();
         } 
     }
@@ -56,6 +56,8 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
 
     [Tooltip("Enemy this behavior is controlling.")]
     private IEnemyInterface enemy;
+
+    private bool fixDirection = false;
 
     private void Awake()
     {
@@ -93,12 +95,32 @@ public class MoveTowardsPlayer : MonoBehaviour, IEnemyBehaviorInterface
     /// <returns></returns>
     private IEnumerator GetInput(UnityAction onComplete)
     {
-        Vector3 input = solver.GetDirection(contexts);
-        rawInput = input;
-        enemy.Rigidbody.velocity = input * speed;
+        if (!fixDirection)
+        {
+            Vector3 input = solver.GetDirection(contexts);
 
-        yield return new WaitForSeconds(.6f);
+            if(Vector3.Distance(transform.position, solver.Target) < sightDistance &&
+                solver.Target != Vector3.zero)
+            {
+                rawInput = input;
+                enemy.Rigidbody.velocity = input * speed;
+                StartCoroutine(FixedDirectionTimer());
+            }
+            else
+            {
+                enemy.Rigidbody.velocity = Vector3.zero;
+            }
+        }
+
+        yield return null;
         onComplete?.Invoke();
+    }
+
+    private IEnumerator FixedDirectionTimer()
+    {
+        fixDirection = true;
+        yield return new WaitForSeconds(.6f);
+        fixDirection = false;
     }
 
     private void OnCollisionEnter(Collision collision)
