@@ -31,6 +31,7 @@ public class LobProjectile : MonoBehaviour
 
         baseHeight = transform.position.y;
 
+        transform.LookAt(targetPos);
         rb.velocity = transform.forward * speed;
 
         StartCoroutine(Move());
@@ -69,7 +70,7 @@ public class LobProjectile : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        Destroy(gameObject);
+        Kill();
     }
 
     protected void Kill()
