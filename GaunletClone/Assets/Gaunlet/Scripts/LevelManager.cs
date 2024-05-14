@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
     public int level;
+    public bool lastLevel;
 
     //Instances (For Singleton)
     public static LevelManager Instance = null;
@@ -31,6 +32,11 @@ public class LevelManager : MonoBehaviour
 
     public void switchScene()
     {
+        if (lastLevel)
+        {
+            SceneManager.LoadScene(0);
+            return;
+        }
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

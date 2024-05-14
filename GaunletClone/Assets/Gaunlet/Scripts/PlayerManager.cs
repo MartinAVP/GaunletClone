@@ -197,9 +197,11 @@ public class PlayerManager : MonoBehaviour
             {
                 //Debug.Log("Player Found");
                 playerData[i].inGamePlayer = gameObject;
-                return;
+                break;
             }
         }
+
+        gameObject.transform.SetParent(this.gameObject.transform);
     }
 
     void OnPlayerJoined(PlayerInput playerInput)

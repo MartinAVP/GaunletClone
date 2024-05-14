@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        //StartCoroutine(CameraStartDelay());
+        StartCoroutine(CameraStartDelay());
     }
 
     private void FixedUpdate()
@@ -64,8 +64,11 @@ public class CameraController : MonoBehaviour
     private IEnumerator CameraStartDelay()
     {
         yield return new WaitForSeconds(.5f);
-        playerOne = PlayerManager.Instance.playerData[0].inGamePlayer.gameObject.transform;
-        transform.position = playerOne.transform.position;
+        if(PlayerManager.Instance.playerData.Count != 0)
+        {
+            playerOne = PlayerManager.Instance.playerData[0].inGamePlayer.gameObject.transform;
+            transform.position = playerOne.transform.position;
+        }
     }
 
     public void CameraStart(Players player)
