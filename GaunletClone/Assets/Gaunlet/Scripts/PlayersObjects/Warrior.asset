@@ -17,7 +17,9 @@ MonoBehaviour:
   damage: 10
   health: 5
   score: 0
+  keys: 0
+  potions: 0
   type: 0
   inventory: []
-  prefab: {fileID: 0}
+  prefab: {fileID: 3643702916142829625, guid: 05384887c3305ba4f924109156410d1a, type: 3}
   UIColor: {r: 1, g: 0.13396549, b: 0.12549019, a: 1}

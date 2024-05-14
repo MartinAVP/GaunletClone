@@ -10,7 +10,11 @@ public class Players : ScriptableObject
     public string name;
     public int damage;
     public int health;
+
     public int score;
+    public int keys;
+    public int potions;
+
     public playerType type;
 
     public List<inventoryItems> inventory;
