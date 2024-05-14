@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        // Singleton
         if (Instance == null)
         {
             Instance = this;
@@ -30,6 +32,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        // Find all the Spawnpoints in the scene
         spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
 
         //Enable join/leave actions
@@ -40,10 +43,16 @@ public class GameManager : MonoBehaviour
         leaveAction.performed += context => LeaveAction(context);
     }
 
+    private void OnDisable()
+    {
+        joinAction.Disable();
+        leaveAction.Disable();
+    }
+
     private void Start()
     {
         // Index = 0; SplitScreen = -1, ControllScheme = null
-        PlayerInputManager.instance.JoinPlayer(0, -1, null);
+        //PlayerInputManager.instance.JoinPlayer(0, -1, null);
     }
 
     void OnPlayerJoined(PlayerInput playerInput)
@@ -101,5 +110,12 @@ public class GameManager : MonoBehaviour
         }
 
         Destroy(playerInput.transform.parent.gameObject);
+    }
+
+    public struct PlayerData
+    {
+        PlayerInput input;
+        Players player;
+        GameObject inGamePlayer;
     }
 }
