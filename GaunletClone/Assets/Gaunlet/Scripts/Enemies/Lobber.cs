@@ -19,7 +19,7 @@ public class Lobber : EnemyBase
     // Behaviors
     protected PlayClip rangedAttackBehavior;
     protected MoveTowardsPlayer chaseBehavior;
-    // TODO: evade behavior (when player is too close)
+    protected MoveAwayFromPlayer evasionBehavior;
 
     protected float chaseTime = 0;
     protected float timeUntilRangedAttack;
@@ -31,6 +31,10 @@ public class Lobber : EnemyBase
         chaseBehavior = gameObject.AddComponent<MoveTowardsPlayer>();
         chaseBehavior.PlayerDetectionRadius = playerDetectionRadius;
         chaseBehavior.ObstacleDetectionRadius = obstacleDetectionRadius;
+
+        evasionBehavior = gameObject.AddComponent<MoveAwayFromPlayer>();
+        evasionBehavior.PlayerDetectionRadius = playerDetectionRadius;
+        evasionBehavior.ObstacleDetectionRadius = obstacleDetectionRadius;
 
         rangedAttackBehavior = gameObject.AddComponent<PlayClip>();
         rangedAttackBehavior.SetAnimation(rangedAttackAnim);    
@@ -66,7 +70,7 @@ public class Lobber : EnemyBase
         else
         {
             // flee behavior would go here
-            CurrBehavior = chaseBehavior;
+            CurrBehavior = evasionBehavior;
         }
 
         Debug.Log(name + " " + CurrBehavior);
@@ -79,7 +83,7 @@ public class Lobber : EnemyBase
             mesh.transform.LookAt(transform.position + rb.velocity);
         }
 
-        if (CurrBehavior == chaseBehavior)
+        if (CurrBehavior == chaseBehavior || CurrBehavior == evasionBehavior)
         {
             chaseTime += Time.fixedDeltaTime;
         }
