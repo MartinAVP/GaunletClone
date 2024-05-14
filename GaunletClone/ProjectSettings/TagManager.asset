@@ -8,6 +8,8 @@ TagManager:
   - Key
   - Potion
   - Door
+  - Treasure
+  - Food
   layers:
   - Default
   - TransparentFX

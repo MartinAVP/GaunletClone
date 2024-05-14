@@ -29,7 +29,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("Called");
+        //Debug.Log("Called");
         PlayerManager.Instance.SetInGameObject(this.transform.parent.gameObject, this.transform.parent.GetComponent<playerTypeHolder>().type);
         StartCoroutine(SetDelay());
     }

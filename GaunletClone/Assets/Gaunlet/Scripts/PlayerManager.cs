@@ -46,6 +46,12 @@ public class PlayerManager : MonoBehaviour
     public static event Action<Players> addPotion;
     public static event Action<Players> removePotion;
 
+    // Update Score to Player
+    public static event Action<Players, int> updateScore;
+
+    // Update Health to Player
+    public static event Action<Players, int> updateHealth;
+
     private void Awake()
     {
         // Singleton
@@ -186,7 +192,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (playerData[i].player.type == player)
             {
-                Debug.Log("Player Found");
+                //Debug.Log("Player Found");
                 playerData[i].inGamePlayer = gameObject;
                 return;
             }
@@ -205,7 +211,20 @@ public class PlayerManager : MonoBehaviour
                 lastSpawnedPrefab = playerTypeJoinOrder[i].player.prefab;
                 playerTypeJoinOrder[i].used = true;
 
+                
                 onPlayerJoin?.Invoke(playerTypeJoinOrder[i].player);
+
+                NarratorAudioManager.Instance.addSoundQuededByID(4);
+                if(playerTypeJoinOrder[i].player.type == playerType.Warrior)
+                {
+                    NarratorAudioManager.Instance.addSoundQuededByID(0);
+                }
+                if (playerTypeJoinOrder[i].player.type == playerType.Valkyrie)
+                {
+                    NarratorAudioManager.Instance.addSoundQuededByID(1);
+                }
+
+                updateScore?.Invoke(playerTypeJoinOrder[i].player, 0);
                 break;
             }
         }    
@@ -230,6 +249,8 @@ public class PlayerManager : MonoBehaviour
         int playerToGive = FindListLocationBasedOnType(type);
         playerData[playerToGive].player.keys++;
         addKey?.Invoke(playerData[playerToGive].player);
+
+        //NarratorAudioManager.Instance.addSoundQuededByID(6);
     }
     public void RemoveKeyToPlayer(playerType type)
     {
@@ -254,6 +275,22 @@ public class PlayerManager : MonoBehaviour
     {
         int playerToGive = FindListLocationBasedOnType(type);
         return playerData[playerToGive].player.keys;
+    }
+
+    public void AddScoreToPlayer(playerType type, int amount)
+    {
+        int playerToGive = FindListLocationBasedOnType(type);
+        playerData[playerToGive].player.score += amount;
+
+        updateScore?.Invoke(playerData[playerToGive].player, playerData[playerToGive].player.score);
+    }
+
+    public void AddHealthToPlayer(playerType type, int amount)
+    {
+        int playerToGive = FindListLocationBasedOnType(type);
+        playerData[playerToGive].player.health += amount;
+
+        updateHealth?.Invoke(playerData[playerToGive].player, playerData[playerToGive].player.health);
     }
 
     // Internal Methods

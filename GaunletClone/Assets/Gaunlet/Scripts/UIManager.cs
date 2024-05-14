@@ -60,6 +60,10 @@ public class UIManager : MonoBehaviour
 
         PlayerManager.addPotion += AddPotion;
         PlayerManager.removePotion += RemovePotion;
+
+        PlayerManager.updateScore += AddScore;
+
+        PlayerManager.updateHealth += AddHealth;
     }
 
     private void OnDisable()
@@ -75,6 +79,10 @@ public class UIManager : MonoBehaviour
 
         PlayerManager.addPotion -= AddPotion;
         PlayerManager.removePotion -= RemovePotion;
+
+        PlayerManager.updateScore -= AddScore;
+
+        PlayerManager.updateHealth -= AddHealth;
     }
 
     /*    // OnGUI Test Buttons
@@ -239,15 +247,15 @@ public class UIManager : MonoBehaviour
     {
         int id = FindPlayer(player);
         if (id == -1) { Debug.LogError("Couldn't find player"); return; }
-        /*        for (int i = 0; i < playerData.Length; i++)
-                {
-                    if (playerData[i].player == player)
-                    {
-                        playerData[i].score.GetComponent<TextMeshProUGUI>().text = score.ToString();
-                    }
-                }*/
 
         playerData[id].score.GetComponent<TextMeshProUGUI>().text = score.ToString();
+    }
+    public void AddHealth(Players player, int health)
+    {
+        int id = FindPlayer(player);
+        if (id == -1) { Debug.LogError("Couldn't find player"); return; }
+
+        playerData[id].health.GetComponent<TextMeshProUGUI>().text = health.ToString();
     }
     public void changeMultiplier(Players player, int multiplier)
     {
